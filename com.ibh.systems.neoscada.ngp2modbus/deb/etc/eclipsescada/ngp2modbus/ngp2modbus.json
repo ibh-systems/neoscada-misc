@@ -1,0 +1,26 @@
+{
+  "ports": [
+    {
+      "port": 5502,
+      "slaves": [
+        {
+          "slaveId": 2,
+          "holdingRegisters": [
+            {
+              "address": 0,
+              "item": "da:ngp://admin:admin12@localhost:2101#A_VALID_NEOSCADA_ITEM"
+            }
+          ],
+          "inputRegisters": [],
+          "coilRegisters": [
+            {
+              "address": 5,
+              "item": "da:ngp://admin:admin12@localhost:2101#A_VALID_NEOSCADA_ITEM"
+            }
+          ],
+          "discreteRegisters": []
+        }
+      ]
+    }
+  ]
+}

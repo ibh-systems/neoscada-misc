@@ -1,0 +1,5 @@
+#!/bin/sh
+
+start scada.app.ngp2modbus
+
+exit 0

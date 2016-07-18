@@ -9,7 +9,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-		<eclipsescada.maven.repo.url>http://download.eclipse.org/eclipsescada/downloads/org.eclipse.scada/drops/0.3.0/R201604140500/maven/</eclipsescada.maven.repo.url>
+		<eclipsescada.maven.repo.url>http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/downloads/org.eclipse.scada/drops/0.3.0/R201604140500/maven/</eclipsescada.maven.repo.url>
 	</properties>
 
 	<build>

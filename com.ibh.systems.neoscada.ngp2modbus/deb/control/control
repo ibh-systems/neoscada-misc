@@ -1,0 +1,8 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: low
+Architecture: all
+Depends: java-common
+Description: ngp2modbus service
+Maintainer: Juergen Rose <juergen.rose@ibh-systems.com>
