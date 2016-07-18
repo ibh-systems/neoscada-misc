@@ -1,0 +1,1 @@
+a simple library to create Eclipse NeoSCADA configs manually
