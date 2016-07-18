@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="ASCII"?>
+<security:Configuration xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://eclipse.org/SCADA/Configuration/Security" name="Global Security Policy">
+  <rules xsi:type="security:ScriptRule" id="allow.all" script="//@scripts.0"/>
+  <scripts xsi:type="security:GenericScript" source="true;"/>
+</security:Configuration>

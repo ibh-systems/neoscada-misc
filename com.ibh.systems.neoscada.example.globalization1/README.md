@@ -1,0 +1,1 @@
+configuration example, how to create a "globalized" master server
