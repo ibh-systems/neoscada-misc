@@ -1,2 +1,5 @@
 language: java
 
+script:
+  - cd com.ibh.systems.neoscada.generator.lib
+  - mvn clean install
