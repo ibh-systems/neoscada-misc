@@ -1,0 +1,10 @@
+#!/bin/sh
+
+getent group eclipsescada >/dev/null || groupadd -r eclipsescada
+getent passwd eclipsescada >/dev/null || \
+    useradd -r -g eclipsescada -d /var/lib/eclipsescada -s /sbin/nologin \
+    -c "this user is used to run the NeoSCADA software" eclipsescada
+
+stop scada.app.iec104torest
+
+exit 0

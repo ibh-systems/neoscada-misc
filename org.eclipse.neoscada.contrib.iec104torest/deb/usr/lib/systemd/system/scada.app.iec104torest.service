@@ -1,0 +1,17 @@
+[Unit]
+Description=Status service Eclipse NeoSCADA
+After=syslog.target
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=TODO
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=300
+WorkingDirectory=/var/lib/eclipsescada/TODO
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=
+ 
+[Install]
+WantedBy=multi-user.target

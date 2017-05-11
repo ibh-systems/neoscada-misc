@@ -1,0 +1,1 @@
+provides a a simple way to expose iec 104 data as CSV via a HTTP end point and file storage

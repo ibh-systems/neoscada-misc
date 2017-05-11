@@ -1,0 +1,5 @@
+#!/bin/sh
+
+systemctl start scada.app.iec104torest
+
+exit 0
