@@ -1,0 +1,1 @@
+provides a status & health HTTP endpoint to monitor your NeoSCADA services
