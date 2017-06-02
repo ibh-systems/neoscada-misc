@@ -15,19 +15,20 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 
-import org.openscada.protocol.iec60870.asdu.ASDUHeader;
-import org.openscada.protocol.iec60870.asdu.types.ASDUAddress;
-import org.openscada.protocol.iec60870.asdu.types.CauseOfTransmission;
-import org.openscada.protocol.iec60870.asdu.types.InformationObjectAddress;
-import org.openscada.protocol.iec60870.asdu.types.QualityInformation;
-import org.openscada.protocol.iec60870.asdu.types.Value;
-import org.openscada.protocol.iec60870.io.MirrorCommand;
-import org.openscada.protocol.iec60870.server.data.AbstractBaseDataModel;
-import org.openscada.protocol.iec60870.server.data.BackgroundIterator;
-import org.openscada.protocol.iec60870.server.data.DataListener;
-import org.openscada.protocol.iec60870.server.data.event.MessageBuilder;
-import org.openscada.protocol.iec60870.server.data.event.SimpleFloatBuilder;
+import org.eclipse.neoscada.protocol.iec60870.asdu.ASDUHeader;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.ASDUAddress;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.CauseOfTransmission;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.InformationObjectAddress;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.QualityInformation;
+import org.eclipse.neoscada.protocol.iec60870.asdu.types.Value;
+import org.eclipse.neoscada.protocol.iec60870.io.MirrorCommand;
+import org.eclipse.neoscada.protocol.iec60870.server.data.AbstractBaseDataModel;
+import org.eclipse.neoscada.protocol.iec60870.server.data.BackgroundIterator;
+import org.eclipse.neoscada.protocol.iec60870.server.data.DataListener;
+import org.eclipse.neoscada.protocol.iec60870.server.data.event.MessageBuilder;
+import org.eclipse.neoscada.protocol.iec60870.server.data.event.SimpleFloatBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -145,10 +146,10 @@ public class SineDataModel extends AbstractBaseDataModel
     }
 
     @Override
-    public void forAllAsdu ( final Function<ASDUAddress, Void> function, final Runnable ifNoneFound )
+    public void forAllAsdu ( Consumer<ASDUAddress> function, Runnable ifNoneFound )
     {
-        // we only have one
-        function.apply ( ASDU_ADDRESS );
+        // we only have the one
+        function.accept ( ASDU_ADDRESS );
     }
 
     @Override
@@ -220,10 +221,11 @@ public class SineDataModel extends AbstractBaseDataModel
         performWrite ( mirrorCommand, execute );
     }
 
-    @Override
-    public void writeValue ( final ASDUHeader header, final InformationObjectAddress informationObjectAddress, final float value, final byte type, final MirrorCommand mirrorCommand, final boolean execute )
+
+    protected synchronized void handleWriteCommand ( final MirrorCommand mirrorCommand )
     {
-        performWrite ( mirrorCommand, execute );
+        // we silently accept it
+        mirrorCommand.sendActivationTermination ();
     }
 
     @Override
@@ -232,9 +234,9 @@ public class SineDataModel extends AbstractBaseDataModel
         performWrite ( mirrorCommand, execute );
     }
 
-    protected synchronized void handleWriteCommand ( final MirrorCommand mirrorCommand )
+    @Override
+    public void writeFloatValue ( ASDUHeader header, InformationObjectAddress informationObjectAddress, float value, byte type, MirrorCommand mirrorCommand, boolean execute )
     {
-        // we silently accept it
-        mirrorCommand.sendActivationTermination ();
+        performWrite ( mirrorCommand, execute );
     }
 }

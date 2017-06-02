@@ -2,13 +2,14 @@ package com.ibh.systems.neoscada.iec104example;
 
 import java.util.Arrays;
 
-import org.openscada.protocol.iec60870.server.Server;
-import org.openscada.protocol.iec60870.server.data.DataModel;
-import org.openscada.protocol.iec60870.server.data.DataModule;
-import org.openscada.protocol.iec60870.server.data.DataModuleOptions;
+import org.eclipse.neoscada.protocol.iec60870.server.Server;
+import org.eclipse.neoscada.protocol.iec60870.server.data.DataModel;
+import org.eclipse.neoscada.protocol.iec60870.server.data.DataModule;
+import org.eclipse.neoscada.protocol.iec60870.server.data.DataModuleOptions;
 
 public class TestSlave
 {
+    @SuppressWarnings ( "resource" )
     public static void main ( String[] args )
     {
         DataModuleOptions options = new DataModuleOptions.Builder ().build ();
