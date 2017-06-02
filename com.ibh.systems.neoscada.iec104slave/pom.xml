@@ -19,18 +19,46 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
-	<!-- 
-	<repositories>
-		<repository>
-			<id>os-int</id>
-			<url>http://thedrone.packagedrone.org/maven/openscada-1.4/</url>
-		</repository>
-		<repository>
-			<id>eclipsescada</id>
-			<url>http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/downloads/org.eclipse.scada/drops/0.3.0/R201604140500/maven/</url>
-		</repository>
-	</repositories>
-	 -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<createDependencyReducedPom>false</createDependencyReducedPom>
+							<transformers>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+									<resource>.gitignore</resource>
+								</transformer>
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>com.ibh.systems.neoscada.iec104example.TestSlave</mainClass>
+								</transformer>
+							</transformers>
+							<filters>
+								<filter>
+									<artifact>*:*</artifact>
+									<excludes>
+										<exclude>META-INF/*.SF</exclude>
+										<exclude>META-INF/*.DSA</exclude>
+										<exclude>META-INF/*.RSA</exclude>
+									</excludes>
+								</filter>
+							</filters>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 
 	<dependencies>
 		<dependency>
@@ -42,6 +70,11 @@
 			<groupId>org.eclipse.neoscada.protocols</groupId>
 			<artifactId>org.eclipse.neoscada.protocol.iec60870.server.data</artifactId>
 			<version>0.4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.8</version>
 		</dependency>
 	</dependencies>
 </project>

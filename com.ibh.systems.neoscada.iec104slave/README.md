@@ -5,3 +5,9 @@ the original code is here: [org.openscada.protocol.iec60870.server.data/src/org/
 ![View in IEC Explorer](https://raw.githubusercontent.com/ibh-systems/neoscada-misc/master/com.ibh.systems.neoscada.iec104slave/iecexplorer.gif "View in IEC Explorer")
 
 The IEC 60870-5-104 Explorer can be downloaded here: [http://ibh-systems.com/iec60870/](http://ibh-systems.com/iec60870/)
+
+With the lastest change the Maven build now also generates a shaded jar which can be called just like this:
+
+    java -jar target/com.ibh.systems.neoscada.iec104slave-0.7.1.jar
+    
+this way there is no need to futz around with the classpath.

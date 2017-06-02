@@ -13,6 +13,7 @@ package com.ibh.systems.neoscada.iec104example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -34,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 import com.google.common.base.Function;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 public class SineDataModel extends AbstractBaseDataModel
 {
@@ -71,7 +73,12 @@ public class SineDataModel extends AbstractBaseDataModel
         {
             this.values.add ( new Value<Float> ( 0.0f, System.currentTimeMillis (), QualityInformation.INVALID ) );
         }
+    }
 
+    @Override
+    public synchronized void start ()
+    {
+        super.start ();
         this.executor.scheduleAtFixedRate ( new Runnable () {
 
             @Override
@@ -220,7 +227,6 @@ public class SineDataModel extends AbstractBaseDataModel
     {
         performWrite ( mirrorCommand, execute );
     }
-
 
     protected synchronized void handleWriteCommand ( final MirrorCommand mirrorCommand )
     {
