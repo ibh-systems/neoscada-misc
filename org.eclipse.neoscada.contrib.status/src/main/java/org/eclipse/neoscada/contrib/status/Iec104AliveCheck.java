@@ -51,9 +51,9 @@ public class Iec104AliveCheck
     private Map<String, ScadaItem> itemsByName = new ConcurrentHashMap<> ();
 
     private AtomicReference<AutoConnectClient.State> connectionStateRef = new AtomicReference<AutoConnectClient.State> ( AutoConnectClient.State.DISCONNECTED );
-    
+
     @SuppressWarnings ( "unused" )
-    private AutoConnectClient iecClient; 
+    private AutoConnectClient iecClient;
 
     public AutoConnectClient.State getConnectionState ()
     {

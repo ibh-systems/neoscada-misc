@@ -5,11 +5,12 @@
 	
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
+	<version>0.7.1</version>
 	<packaging>pom</packaging>
 	
 	<modules>
-		<module>com.ibh.systems.neoscada.contrib.ngp2modbus</module>
-		<module>com.ibh.systems.neoscada.contrib.iec104torest</module>
-		<module>com.ibh.systems.neoscada.contrib.status</module>
+		<module>com.ibh.systems.neoscada.ngp2modbus</module>
+		<module>org.eclipse.neoscada.contrib.iec104torest</module>
+		<module>org.eclipse.neoscada.contrib.status</module>
 	</modules>
 </project>

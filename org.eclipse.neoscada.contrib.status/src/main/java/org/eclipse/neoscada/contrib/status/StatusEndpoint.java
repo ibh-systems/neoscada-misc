@@ -61,7 +61,11 @@ public class StatusEndpoint
                 }
                 else
                 {
-                    exchange.getResponseSender ().send ( createStatusMap ( exchange.getRelativePath () ), UTF8 );
+                    if ( result.startsWith ( "CRIT" ) )
+                    {
+                        exchange.setStatusCode ( 500 );
+                    }
+                    exchange.getResponseSender ().send ( result, UTF8 );
                 }
             }
         } ).build ();
