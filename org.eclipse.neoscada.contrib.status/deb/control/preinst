@@ -1,5 +1,12 @@
 #!/bin/sh
 
+getent group eclipsescada >/dev/null || groupadd -r eclipsescada
+getent passwd eclipsescada >/dev/null || \
+    useradd -r -g eclipsescada -d /var/lib/eclipsescada -s /sbin/nologin \
+    -c "this user is used to run the NeoSCADA software" eclipsescada
+mkdir -p /var/log/eclipsescada
+chown eclipsescada:eclipsescada /var/log/eclipsescada
+
 service scada.app.status stop 
 
 exit 0
