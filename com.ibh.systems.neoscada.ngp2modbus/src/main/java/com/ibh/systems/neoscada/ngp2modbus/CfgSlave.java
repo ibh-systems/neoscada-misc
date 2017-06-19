@@ -1,7 +1,7 @@
 package com.ibh.systems.neoscada.ngp2modbus;
+
 import java.util.Set;
 import java.util.TreeSet;
-
 
 public class CfgSlave
 {

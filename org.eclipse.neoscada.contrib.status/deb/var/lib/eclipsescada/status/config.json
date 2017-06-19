@@ -1,0 +1,12 @@
+{
+	"localhost" : {
+		"localhost" : {
+			"neoscada" : [
+				{"name": "master", "daUrl" : "da:ngp://localhost:2101", "jmxPort" : 9001, "items": [
+					{"tag": "statistics.valueEvents.average", "ll": 0.0, "l": 10.0},
+					{"tag": "statistics.sessions.total", "ll": 1.0}
+				]}
+			]
+		}
+	}
+}

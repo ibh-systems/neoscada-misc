@@ -1,11 +1,12 @@
 package com.ibh.systems.neoscada.ngp2modbus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class CfgPort
 {
     private String bindAddress = "0.0.0.0";
-    
+
     private int port = 502;
 
     private List<CfgSlave> slaves = new ArrayList<> ();
@@ -14,12 +15,12 @@ public class CfgPort
     {
         return bindAddress;
     }
-    
+
     public void setBindAddress ( String bindAddress )
     {
         this.bindAddress = bindAddress;
     }
-    
+
     public int getPort ()
     {
         return port;

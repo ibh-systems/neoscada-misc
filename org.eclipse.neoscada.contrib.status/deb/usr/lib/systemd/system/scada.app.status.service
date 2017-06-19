@@ -1,0 +1,17 @@
+[Unit]
+Description=Status/Health check service for Eclipse NeoSCADA
+After=syslog.target
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=/usr/bin/java -jar -Dlogback.configurationFile=/var/lib/eclipsescada/status/logback.xml /var/lib/eclipsescada/status/org.eclipse.neoscada.contrib.status.jar /var/lib/eclipsescada/status/config.json
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=300
+WorkingDirectory=/var/lib/eclipsescada/status
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=neoscada-status
+ 
+[Install]
+WantedBy=multi-user.target

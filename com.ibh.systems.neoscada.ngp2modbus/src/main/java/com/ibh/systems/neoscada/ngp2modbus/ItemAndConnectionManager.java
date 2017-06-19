@@ -66,7 +66,8 @@ public class ItemAndConnectionManager
 
     public DataItem getItem ( String itemUri )
     {
-        if (itemUri == null) {
+        if ( itemUri == null )
+        {
             return null;
         }
         return items.get ( itemUri );
@@ -117,7 +118,8 @@ public class ItemAndConnectionManager
     {
         Pair<String, String> connectionItem = parseItemUri ( itemUri );
         ItemManagerImpl itemManager = connections.get ( connectionItem.first );
-        if (itemManager != null) {
+        if ( itemManager != null )
+        {
             return itemManager.getConnection ();
         }
         return null;

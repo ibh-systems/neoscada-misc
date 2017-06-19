@@ -1,0 +1,5 @@
+#!/bin/sh
+
+service scada.app.status start
+
+exit 0
