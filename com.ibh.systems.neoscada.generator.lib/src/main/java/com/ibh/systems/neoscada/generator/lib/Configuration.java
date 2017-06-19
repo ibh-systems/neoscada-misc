@@ -25,7 +25,7 @@ public class Configuration
         Map<String, FactoryElement> factoryEntries = this.factories.get ( element.getFactory () );
         if ( factoryEntries == null )
         {
-            factoryEntries = new TreeMap<String, FactoryElement> ();
+            factoryEntries = new TreeMap<> ();
             this.factories.put ( element.getFactory (), factoryEntries );
         }
         if ( factoryEntries.get ( element.getId () ) != null )
@@ -80,6 +80,16 @@ public class Configuration
         {
             final JsonObject object = new JsonObject ();
             object.addProperty ( "value", "" + src.getValue () );
+            return object;
+        }
+    }
+
+    public static class TransientDataSourceFactoryElementSerializer implements JsonSerializer<TransientDataSourceFactoryElement>
+    {
+        @Override
+        public JsonElement serialize ( final TransientDataSourceFactoryElement src, final Type typeOfSrc, final JsonSerializationContext context )
+        {
+            final JsonObject object = new JsonObject ();
             return object;
         }
     }
@@ -349,6 +359,7 @@ public class Configuration
             object.addProperty ( "host", src.getHost () );
             object.addProperty ( "port", "" + src.getPort () );
             object.addProperty ( "protocolType", "TCP" );
+            object.addProperty ( "readTimeout", "" + src.getReadTimeout () );
             return object;
         }
     }
@@ -401,6 +412,7 @@ public class Configuration
                 .registerTypeAdapter ( HistoricalItemFactoryElement.class, new HistoricalItemFactoryElementSerializer () ) //
                 .registerTypeAdapter ( MasterItemFactoryElement.class, new MasterItemFactoryElementSerializer () ) //
                 .registerTypeAdapter ( ConstantDataSourceFactoryElement.class, new ConstantDataSourceFactoryElementSerializer () )//
+                .registerTypeAdapter ( TransientDataSourceFactoryElement.class, new TransientDataSourceFactoryElementSerializer () )//
                 .registerTypeAdapter ( ScriptDataSourceFactoryElement.class, new ScriptDataSourceFactoryElementSerializer () ) //
                 .registerTypeAdapter ( ScaleHandlerFactoryElement.class, new ScaleHandlerFactoryElementSerializer () ) //
                 .registerTypeAdapter ( ManualHandlerFactoryElement.class, new ManualHandlerFactoryElementSerializer () ) //

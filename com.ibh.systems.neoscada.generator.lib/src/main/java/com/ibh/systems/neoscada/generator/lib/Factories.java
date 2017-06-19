@@ -168,7 +168,7 @@ public class Factories
     public static class TransientItemFactory extends AbstractFactory
     {
 
-        public static final String FACTORY_NAME = "org.eclipse.scada.da.datasource.transient";
+        public static final String FACTORY_NAME = "org.eclipse.scada.da.datasource.memory";
 
         @Override
         public String getId ()

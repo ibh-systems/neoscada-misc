@@ -1,5 +1,8 @@
 package com.ibh.systems.neoscada.generator.lib;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 public class OpcXmlDaConnectionFactoryElement extends AbstractFactoryElement
 {
 
@@ -19,6 +22,8 @@ public class OpcXmlDaConnectionFactoryElement extends AbstractFactoryElement
 
     private final boolean polling;
 
+    private final Map<String, String> typeMappings;
+
     @Override
     public Factory getFactory ()
     {
@@ -30,9 +35,10 @@ public class OpcXmlDaConnectionFactoryElement extends AbstractFactoryElement
         super ( id );
         this.url = url;
         this.polling = polling;
+        this.typeMappings = new TreeMap<> ();
     }
 
-    public OpcXmlDaConnectionFactoryElement ( final String id, final String url, final int samplingRate, final int timeOut, final int waitTime, final boolean polling )
+    public OpcXmlDaConnectionFactoryElement ( final String id, final String url, final int samplingRate, final int timeOut, final int waitTime, final boolean polling, final Map<String, String> typeMappings )
     {
         super ( id );
         this.url = url;
@@ -40,6 +46,7 @@ public class OpcXmlDaConnectionFactoryElement extends AbstractFactoryElement
         this.timeOut = timeOut;
         this.waitTime = waitTime;
         this.polling = polling;
+        this.typeMappings = new TreeMap<> ( typeMappings );
     }
 
     public String getUrl ()
@@ -80,5 +87,10 @@ public class OpcXmlDaConnectionFactoryElement extends AbstractFactoryElement
     public boolean isPolling ()
     {
         return this.polling;
+    }
+
+    public Map<String, String> getTypeMappings ()
+    {
+        return this.typeMappings;
     }
 }
