@@ -323,7 +323,7 @@ public class Configuration
         {
             final JsonObject object = new JsonObject ();
             object.addProperty ( "master.id", src.getMasterId () );
-            object.addProperty ( "handlerPriority", src.getHandlerPriority () );
+            object.addProperty ( "handlerPriority", "" + src.getHandlerPriority () );
             object.addProperty ( "tag", Joiner.on ( ", " ).join ( src.getTags () ) );
             for ( final String tag : src.getTags () )
             {
