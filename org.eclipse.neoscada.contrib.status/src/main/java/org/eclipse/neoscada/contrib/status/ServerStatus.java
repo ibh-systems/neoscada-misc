@@ -63,6 +63,7 @@ public class ServerStatus
             JsonObject o = new JsonObject ();
             o.add ( "name", new JsonPrimitive ( service.getName () ) );
             o.add ( "memory", gson.toJsonTree ( service.getMemory () ) );
+            o.add ( "queuesize", new JsonPrimitive ( service.getSumQueueSize () ) );
             o.add ( "loadAverage", gson.toJsonTree ( service.getLoadAverage () ) );
             if ( service.getDaUrl () != null && !service.getDaUrl ().isEmpty () )
             {
@@ -143,6 +144,17 @@ public class ServerStatus
             else
             {
                 sb.append ( "    system load ok at " + service.getLoadAverage () + "\n" );
+            }
+            if ( service.isQueueSizesWarningThreshold () )
+            {
+                sb.append ( "    Queue Size exceeded: " + service.getMaxQueueSize () + "\n" );
+                for ( QueueSize qs : service.getQueueSizes () )
+                {
+                    if ( qs.getSize () > 1 )
+                    {
+                        sb.append ( "      Queue: " + qs + "\n" );
+                    }
+                }
             }
             if ( service.isDisconnected () )
             {

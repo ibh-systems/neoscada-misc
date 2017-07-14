@@ -15,14 +15,18 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.OperatingSystemMXBean;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.management.MBeanServerConnection;
+import javax.management.ObjectInstance;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
@@ -60,6 +64,8 @@ public class ScadaAliveCheck
     private AtomicReference<ConnectionState> daConnectionStateRef = new AtomicReference<ConnectionState> ( ConnectionState.CLOSED );
 
     private List<ScadaItem> items = new ArrayList<> ();
+
+    private SortedSet<QueueSize> queueSizes = new TreeSet<> ();
 
     public String getName ()
     {
@@ -197,8 +203,21 @@ public class ScadaAliveCheck
                 final OperatingSystemMXBean remoteOs = ManagementFactory.newPlatformMXBeanProxy ( connection, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, OperatingSystemMXBean.class );
                 this.loadAverageRef.set ( remoteOs.getSystemLoadAverage () );
 
+                SortedSet<QueueSize> qs = new TreeSet<> ();
+                logger.trace ( "start querying attributes" );
+
+                for ( ObjectInstance mbean : connection.queryMBeans ( null, null ) )
+                {
+                    if ( mbean.getClassName ().equals ( "org.eclipse.scada.utils.concurrent.ExecutorServiceExporterImpl" ) )
+                    {
+                        Integer queueSize = (Integer)connection.getAttribute ( mbean.getObjectName (), "QueueSize" );
+                        qs.add ( new QueueSize ( mbean.getObjectName ().toString (), queueSize ) );
+                    }
+                }
+                logger.trace ( "finished querying attributes" );
+                this.queueSizes = qs;
             }
-            catch ( IOException e )
+            catch ( Exception e )
             {
                 logger.error ( "JMX Operation failed", e );
                 if ( jmxcRef.get () != null )
@@ -246,6 +265,28 @@ public class ScadaAliveCheck
         return ( free * 100 / max );
     }
 
+    public int getMaxQueueSize ()
+    {
+        List<QueueSize> qs = new LinkedList<> ( this.queueSizes );
+        int i = 0;
+        for ( QueueSize s : qs )
+        {
+            i = Math.max ( i, s.getSize () );
+        }
+        return i;
+    }
+
+    public int getSumQueueSize ()
+    {
+        List<QueueSize> qs = new LinkedList<> ( this.queueSizes );
+        int i = 0;
+        for ( QueueSize s : qs )
+        {
+            i += s.getSize ();
+        }
+        return i;
+    }
+
     public boolean isMemoryWarningThreshold ()
     {
         return getFreeMemoryPercent () < 5.0;
@@ -254,6 +295,16 @@ public class ScadaAliveCheck
     public boolean isMemoryCriticalThreshold ()
     {
         return getFreeMemoryPercent () < 0.5;
+    }
+
+    public boolean isQueueSizesWarningThreshold ()
+    {
+        return getMaxQueueSize () > 50;
+    }
+
+    public boolean isQueueSizesCriticalThreshold ()
+    {
+        return getMaxQueueSize () > 10000;
     }
 
     public boolean isLoadAverageWarningThreshold ()
@@ -268,12 +319,12 @@ public class ScadaAliveCheck
 
     public boolean isWarning ()
     {
-        return isMemoryWarningThreshold () || isLoadAverageWarningThreshold () || isDisconnected () || isValueWarning ();
+        return isMemoryWarningThreshold () || isQueueSizesWarningThreshold () || isLoadAverageWarningThreshold () || isDisconnected () || isValueWarning ();
     }
 
     public boolean isCritical ()
     {
-        return isMemoryCriticalThreshold () || isLoadAverageCriticalThreshold () || isDisconnected () || isValueCritical ();
+        return isMemoryCriticalThreshold () || isQueueSizesCriticalThreshold () || isLoadAverageCriticalThreshold () || isDisconnected () || isValueCritical ();
     }
 
     private boolean isValueWarning ()
@@ -326,5 +377,10 @@ public class ScadaAliveCheck
     public List<ScadaItem> getItems ()
     {
         return items;
+    }
+
+    public SortedSet<QueueSize> getQueueSizes ()
+    {
+        return queueSizes;
     }
 }
