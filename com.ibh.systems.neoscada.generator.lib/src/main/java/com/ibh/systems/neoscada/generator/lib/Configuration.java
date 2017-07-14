@@ -260,6 +260,15 @@ public class Configuration
 
             object.addProperty ( "timeout", "" + src.getTimeOut () );
             object.addProperty ( "wsdlUrl", "" + src.getWsdlUrl () );
+
+            if ( !src.getTypeMappings ().isEmpty () )
+            {
+                for ( final Entry<String, String> type : src.getTypeMappings ().entrySet () )
+                {
+                    object.addProperty ( "itemType." + type.getKey (), "" + type.getValue () );
+                }
+            }
+
             return object;
         }
     }
@@ -323,7 +332,7 @@ public class Configuration
         {
             final JsonObject object = new JsonObject ();
             object.addProperty ( "master.id", src.getMasterId () );
-            object.addProperty ( "handlerPriority", src.getHandlerPriority () );
+            object.addProperty ( "handlerPriority", "" + src.getHandlerPriority () );
             object.addProperty ( "tag", Joiner.on ( ", " ).join ( src.getTags () ) );
             for ( final String tag : src.getTags () )
             {
