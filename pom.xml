@@ -5,7 +5,7 @@
 	
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
-	<version>0.8.0</version>
+	<version>0.8.1</version>
 	<packaging>pom</packaging>
 	
 	<modules>
@@ -13,5 +13,6 @@
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
 		<module>org.eclipse.neoscada.contrib.status</module>
+		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 	</modules>
 </project>
