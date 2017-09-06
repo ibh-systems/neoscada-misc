@@ -130,17 +130,17 @@
 		<repository>
 			<releases>
 				<enabled>false</enabled>
-				<updatePolicy>always</updatePolicy>
+				<updatePolicy>never</updatePolicy>
 				<checksumPolicy>warn</checksumPolicy>
 			</releases>
 			<snapshots>
 				<enabled>true</enabled>
-				<updatePolicy>never</updatePolicy>
+				<updatePolicy>always</updatePolicy>
 				<checksumPolicy>fail</checksumPolicy>
 			</snapshots>
 			<id>openSCADA</id>
 			<name>openSCADA</name>
-			<url>http://thedrone.packagedrone.org/maven/openscada-1.5-integration/</url>
+			<url>https://thedrone.packagedrone.org/maven/openscada-1.5-integration/</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
