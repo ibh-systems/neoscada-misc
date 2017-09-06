@@ -1,0 +1,17 @@
+[Unit]
+Description=Status/Health check service for Eclipse NeoSCADA
+After=syslog.target
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=/usr/bin/java -jar -Dlogback.configurationFile=/var/lib/eclipsescada/kafka-bridge/logback.xml /var/lib/eclipsescada/kafka-bridge/org.eclipse.neoscada.contrib.kafka.jar /var/lib/eclipsescada/kafka-bridge/config.json
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=300
+WorkingDirectory=/var/lib/eclipsescada/kafka-bridge
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=neoscada-kafka-bridge
+ 
+[Install]
+WantedBy=multi-user.target

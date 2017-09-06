@@ -14,5 +14,6 @@
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
 		<module>org.eclipse.neoscada.contrib.status</module>
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
+		<module>org.eclipse.neoscada.contrib.kafka</module>
 	</modules>
 </project>

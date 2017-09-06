@@ -1,0 +1,6 @@
+#!/bin/sh
+
+systemctl stop scada.app.kafka-bridge
+systemctl disable scada.app.kafka-bridge
+
+exit 0
