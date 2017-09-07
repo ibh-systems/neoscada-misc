@@ -18,10 +18,13 @@ public class ValueChangeEvent implements Serializable, Comparable<ValueChangeEve
 
     private final DataItemValue value;
 
-    public ValueChangeEvent ( String id, DataItemValue value )
+    private final boolean heartbeat;
+
+    public ValueChangeEvent ( String id, DataItemValue value, boolean heartbeat )
     {
         this.id = id;
         this.value = value;
+        this.heartbeat = heartbeat;
     }
 
     public String getId ()
@@ -32,6 +35,11 @@ public class ValueChangeEvent implements Serializable, Comparable<ValueChangeEve
     public DataItemValue getValue ()
     {
         return value;
+    }
+
+    public boolean isHeartbeat ()
+    {
+        return heartbeat;
     }
 
     @Override
@@ -74,7 +82,7 @@ public class ValueChangeEvent implements Serializable, Comparable<ValueChangeEve
     @Override
     public String toString ()
     {
-        return "ValueChangeEvent [id=" + id + ", value=" + value + "]";
+        return "ValueChangeEvent [id=" + id + ", value=" + value + ", heartbeat=" + this.heartbeat + "]";
     }
 
     @Override
@@ -90,13 +98,14 @@ public class ValueChangeEvent implements Serializable, Comparable<ValueChangeEve
         {
             t2 = o.value.getTimestamp ().getTimeInMillis ();
         }
-        if ( t1 == t2 )
-        {
-            return this.id.compareTo ( o.id );
-        }
-        else
+        if ( t1 != t2 )
         {
             return Long.compare ( t1, t2 );
         }
+        if ( !this.id.equals ( o.id ) )
+        {
+            return this.id.compareTo ( o.id );
+        }
+        return Boolean.compare ( this.heartbeat, o.heartbeat );
     }
 }

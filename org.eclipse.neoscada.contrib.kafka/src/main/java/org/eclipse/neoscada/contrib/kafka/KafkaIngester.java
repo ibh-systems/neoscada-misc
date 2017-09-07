@@ -23,6 +23,7 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.eclipse.scada.core.ConnectionInformation;
+import org.eclipse.scada.core.Variant;
 import org.eclipse.scada.core.client.AutoReconnectController;
 import org.eclipse.scada.core.client.ConnectionFactory;
 import org.eclipse.scada.core.client.ConnectionState;
@@ -48,7 +49,7 @@ public class KafkaIngester implements Runnable
 {
     private static final Logger logger = LoggerFactory.getLogger ( KafkaIngester.class );
 
-    private static final Gson gson = new GsonBuilder ().create ();
+    private static final Gson gson = new GsonBuilder ().serializeNulls ().serializeSpecialFloatingPointValues ().registerTypeAdapter(Variant.class, new VariantSerializer()).create ();
 
     private final Configuration configuration;
 
@@ -179,14 +180,14 @@ public class KafkaIngester implements Runnable
                 public void update ( final Observable observable, final Object update )
                 {
                     final DataItemValue div = (DataItemValue)update;
-                    handleValueUpdate ( item, div );
+                    handleValueUpdate ( item, div, false );
                 }
             } );
             subscribedItems.put ( item, itemEntry );
         }
     }
 
-    protected void handleValueUpdate ( String itemId, DataItemValue value )
+    protected void handleValueUpdate ( String itemId, DataItemValue value, boolean heartbeat )
     {
         if ( !includeItem ( itemId ) )
         {
@@ -194,7 +195,7 @@ public class KafkaIngester implements Runnable
         }
         final String topic = toTopicName ( itemId );
         final String modifiedItemId = toKafkaName ( itemId );
-        producer.send ( new ProducerRecord<String, String> ( topic, gson.toJson ( new ValueChangeEvent ( modifiedItemId, value ) ) ) );
+        producer.send ( new ProducerRecord<String, String> ( topic, gson.toJson ( new ValueChangeEvent ( modifiedItemId, value, heartbeat ) ) ) );
     }
 
     protected void storeHeartbeats ()
@@ -204,7 +205,7 @@ public class KafkaIngester implements Runnable
         {
             for ( ItemEntry itemEntry : subscribedItems.values () )
             {
-                handleValueUpdate ( itemEntry.getId (), itemEntry.getDataItem ().getSnapshotValue () );
+                handleValueUpdate ( itemEntry.getId (), itemEntry.getDataItem ().getSnapshotValue (), true );
             }
         }
         catch ( Exception e )
