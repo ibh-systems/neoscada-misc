@@ -49,7 +49,10 @@ public class KafkaIngester implements Runnable
 {
     private static final Logger logger = LoggerFactory.getLogger ( KafkaIngester.class );
 
-    private static final Gson gson = new GsonBuilder ().serializeNulls ().serializeSpecialFloatingPointValues ().registerTypeAdapter(Variant.class, new VariantSerializer()).create ();
+    private static final Gson gson = new GsonBuilder () //
+            .serializeNulls ().serializeSpecialFloatingPointValues () //
+            .registerTypeAdapter ( Variant.class, new VariantSerializer () ) //
+            .create ();
 
     private final Configuration configuration;
 
@@ -172,7 +175,7 @@ public class KafkaIngester implements Runnable
             {
                 continue;
             }
-            
+
             final DataItem dataItem = new DataItem ( item, itemManager );
             final ItemEntry itemEntry = new ItemEntry ( item, dataItem );
             dataItem.addObserver ( new Observer () {
@@ -357,13 +360,16 @@ public class KafkaIngester implements Runnable
                 }
             }, configuration.getCheckInterval (), configuration.getCheckInterval (), TimeUnit.SECONDS );
 
-            executorService.scheduleAtFixedRate ( new Runnable () {
-                @Override
-                public void run ()
-                {
-                    storeHeartbeats ();
-                }
-            }, configuration.getHeartBeat (), configuration.getHeartBeat (), TimeUnit.SECONDS );
+            if ( configuration.getHeartBeat () > 0 )
+            {
+                executorService.scheduleAtFixedRate ( new Runnable () {
+                    @Override
+                    public void run ()
+                    {
+                        storeHeartbeats ();
+                    }
+                }, configuration.getHeartBeat (), configuration.getHeartBeat (), TimeUnit.SECONDS );
+            }
         }
         catch ( Throwable th )
         {
