@@ -16,11 +16,11 @@ public class Configuration implements Serializable {
 
 	private int checkInterval = 900; // in seconds
 
-	private int heartBeat = 900; // in seconds
+	private int heartBeat = 0; // in seconds
 	
 	private boolean cacheNames = true;
 
-	// default behavior, one table, all tags
+	// default behavior, one topic, all tags
 	private String javaScript = "function toTopic(id) { return 'neoscada'; }\nfunction filterTag(tagName) { return true; }\nfunction toName(tagName) { return tagName; }";
 
 	private String javaScriptFile;
