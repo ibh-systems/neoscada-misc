@@ -1,0 +1,8 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: low
+Architecture: all
+Depends: org.eclipse.neoscada.contrib.server.common | org.eclipse.scada | org.eclipse.neoscada
+Description: modbus driver
+Maintainer: Juergen Rose <juergen.rose@ibh-systems.com>

@@ -1,0 +1,9 @@
+Package: [[name]]
+Version: [[version]]
+Section: misc
+Priority: low
+Architecture: all
+Depends: screen, adduser, java-common, python-minimal
+Conflicts: org.eclipse.scada, org.eclipse.neoscada
+Description: NeoSCADA instance base package
+Maintainer: Juergen Rose <juergen.rose@ibh-systems.com>

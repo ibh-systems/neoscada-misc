@@ -1,0 +1,46 @@
+#!/bin/sh
+
+set -e
+
+ECLIPSE_SCADA_INSTALL_DIR=/var/lib/eclipsescada
+ECLIPSE_SCADA_LOG_DIR=/var/log/eclipsescada
+
+# creating eclipsescada group if he isn't already there
+if ! getent group eclipsescada >/dev/null; then
+        # Adding system group: eclipsescada.
+        addgroup --system eclipsescada >/dev/null
+fi
+
+# creating eclipsescada user if he isn't already there
+if ! getent passwd eclipsescada >/dev/null; then
+        # Adding system user: eclipsescada.
+        adduser \
+          --system \
+          --disabled-login \
+          --ingroup eclipsescada \
+          --no-create-home \
+          --home $ECLIPSE_SCADA_INSTALL_DIR \
+          --gecos "Eclipse SCADA user" \
+          --shell /bin/false \
+          eclipsescada  >/dev/null
+fi
+
+# creating eclipsescada home directory
+if [ ! -d $ECLIPSE_SCADA_INSTALL_DIR -a ! -L $ECLIPSE_SCADA_INSTALL_DIR ]; then
+        mkdir $ECLIPSE_SCADA_INSTALL_DIR
+fi
+
+# creating eclipsescada log directory
+if [ ! -d $ECLIPSE_SCADA_LOG_DIR -a ! -L $ECLIPSE_SCADA_LOG_DIR ]; then
+        mkdir $ECLIPSE_SCADA_LOG_DIR
+fi
+
+set +e
+chown eclipsescada:eclipsescada $ECLIPSE_SCADA_INSTALL_DIR
+find $ECLIPSE_SCADA_INSTALL_DIR -follow -not -group eclipsescada -print0 2>/dev/null | xargs -0 --no-run-if-empty chown eclipsescada:eclipsescada
+find $ECLIPSE_SCADA_INSTALL_DIR -follow -not -user eclipsescada -print0 2>/dev/null | xargs -0 --no-run-if-empty chown eclipsescada:eclipsescada
+find $ECLIPSE_SCADA_LOG_DIR -follow -not -group eclipsescada -print0 2>/dev/null | xargs -0 --no-run-if-empty chown eclipsescada:eclipsescada
+find $ECLIPSE_SCADA_LOG_DIR -follow -not -user eclipsescada -print0 2>/dev/null | xargs -0 --no-run-if-empty chown eclipsescada:eclipsescada
+set -e
+
+exit 0

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.eclipse.neoscada.contrib</groupId>
+		<artifactId>org.eclipse.neoscada.contrib.server.base</artifactId>
+		<version>0.9.0</version>
+		<relativePath>../org.eclipse.neoscada.contrib.server.base</relativePath>
+	</parent>
+
+	<artifactId>org.eclipse.neoscada.contrib.server.master.product</artifactId>
+	<packaging>eclipse-repository</packaging>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-p2-director-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<executions>
+					<execution>
+						<id>materialize-products</id>
+						<goals>
+							<goal>materialize-products</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>archive-products</id>
+						<goals>
+							<goal>archive-products</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>jdeb</artifactId>
+				<groupId>org.vafer</groupId>
+				<executions>
+					<execution>
+						<id>general</id>
+						<phase>package</phase>
+						<goals>
+							<goal>jdeb</goal>
+						</goals>
+						<configuration>
+							<verbose>true</verbose>
+							<controlDir>${basedir}/deb/control</controlDir>
+							<dataSet>
+								<data>
+									<src>${project.build.directory}/products/${project.artifactId}/linux/gtk/x86_64</src>
+									<type>directory</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/var/lib/eclipsescada/master</prefix>
+										<user>eclipsescada</user>
+										<group>eclipsescada</group>
+									</mapper>
+								</data>
+								<data>
+									<src>${basedir}/deb/usr</src>
+									<type>directory</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/usr</prefix>
+										<user>root</user>
+										<group>root</group>
+									</mapper>
+								</data>
+								<data>
+									<src>${basedir}/deb/var/lib/eclipsescada</src>
+									<type>directory</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/var/lib/eclipsescada</prefix>
+										<user>eclipsescada</user>
+										<group>eclipsescada</group>
+									</mapper>
+								</data>
+								<data>
+									<src>${basedir}/deb/var/lib/eclipsescada/master/launcher.sh</src>
+									<type>file</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/var/lib/eclipsescada/master</prefix>
+										<user>eclipsescada</user>
+										<group>eclipsescada</group>
+										<filemode>744</filemode>
+									</mapper>
+								</data>
+								<data>
+									<type>link</type>
+									<linkName>/var/lib/eclipsescada/master/launcher</linkName>
+									<linkTarget>/usr/bin/equinox.launcher</linkTarget>
+									<symlink>true</symlink>
+								</data>
+							</dataSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -72,7 +72,7 @@ public class KafkaIngester implements Runnable
 
     public KafkaIngester ( Configuration configuration )
     {
-        kafkaProperties.put ( "bootstrap.servers", configuration.getZookeeperUrl () );
+        kafkaProperties.put ( "bootstrap.servers", configuration.getKafkaUrl () );
         kafkaProperties.put ( "acks", "all" );
         kafkaProperties.put ( "retries", 0 );
         kafkaProperties.put ( "batch.size", 16384 );

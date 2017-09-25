@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature id="org.eclipse.neoscada.contrib.server.base.feature" label="Feature" version="0.9.0" provider-name="IBH">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <includes id="org.eclipse.scada.core.protocols" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.core.server" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.core.client" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.core.common" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.external" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.utils" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.base" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.protocols" version="0.0.0"/>
+
+   <includes id="org.eclipse.scada.deploy.console" version="0.0.0"/>
+
+   <includes id="org.openscada.utgard" version="0.0.0"/>
+
+   <includes id="org.openscada.atlantis" version="0.0.0"/>
+
+   <includes id="org.openscada.external" version="0.0.0"/>
+
+   <includes id="org.eclipse.equinox.server.core" version="0.0.0"/>
+
+   <includes id="org.eclipse.equinox.server.jetty" version="0.0.0"/>
+
+   <includes id="org.eclipse.equinox.server.p2" version="0.0.0"/>
+
+   <plugin id="org.eclipse.equinox.event" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="org.eclipse.equinox.cm" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="org.eclipse.equinox.launcher" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="org.eclipse.equinox.console" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="org.eclipse.equinox.http.jetty" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="org.eclipse.jetty.http" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="org.eclipse.update.configurator" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="ch.qos.logback.classic" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="ch.qos.logback.core" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+   <plugin id="ch.qos.logback.slf4j" download-size="0" install-size="0" version="0.0.0" unpack="false"/>
+
+</feature>

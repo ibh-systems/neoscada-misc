@@ -2,18 +2,54 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
-	<version>0.8.1</version>
+	<version>0.9.0</version>
 	<packaging>pom</packaging>
-	
+
 	<modules>
+		<module>org.eclipse.neoscada.contrib.status</module>
 		<module>com.ibh.systems.neoscada.iec104slave</module>
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
-		<module>org.eclipse.neoscada.contrib.status</module>
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.kafka</module>
+		<module>org.eclipse.neoscada.contrib.server.base</module>
 	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<version>3.3.0</version>
+				<extensions>true</extensions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>integration</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<properties>
+				<openscada.releaseType>integration</openscada.releaseType>
+				<repo.upload>true</repo.upload>
+			</properties>
+
+			<distributionManagement>
+				<downloadUrl>http://thedrone.packagedrone.org/maven/neoscada-contrib</downloadUrl>
+				<repository>
+					<id>neoscada-contrib</id>
+					<name>NeoSCADA Contrib Maven Repository</name>
+					<url>http://thedrone.packagedrone.org/maven/neoscada-contrib</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+	</profiles>
+
 </project>

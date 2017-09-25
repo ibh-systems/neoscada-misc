@@ -1,0 +1,5 @@
+#!/bin/sh
+
+systemctl stop scada.app.master
+
+exit 0

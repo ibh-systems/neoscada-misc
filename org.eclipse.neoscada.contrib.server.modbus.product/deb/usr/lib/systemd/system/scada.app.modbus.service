@@ -1,0 +1,16 @@
+[Unit]
+Description=Eclipse NeoSCADA preconfigured modbus driver instance 
+After=syslog.target
+After=network.target
+
+[Service]
+ExecStart=/var/lib/eclipsescada/modbus/launcher.sh
+ExecStop=/bin/kill -TERM $MAINPID
+StandardOutput=null
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=scada.app.modbus
+WorkingDirectory=/var/lib/eclipsescada/modbus
+
+[Install]
+WantedBy=multi-user.target

@@ -12,7 +12,7 @@ public class Configuration implements Serializable {
 
 	private String ngpUrl = "da:ngp://localhost:2101";
 	
-	private String zookeeperUrl = "localhost:9092";
+	private String kafkaUrl = "localhost:9092";
 
 	private int checkInterval = 900; // in seconds
 
@@ -25,22 +25,6 @@ public class Configuration implements Serializable {
 
 	private String javaScriptFile;
 
-	private boolean storeName = true;
-
-	private boolean storeError = true;
-
-	private boolean storeAlarm = true;
-
-	private boolean storeWarning = true;
-
-	private boolean storeManual = true;
-
-    private boolean storeBlocked = true;
-
-    private boolean storeHeartbeat = true;
-
-    private boolean storeEntryTimestamp = true;
-	
 	public String getUser() {
 		return user;
 	}
@@ -106,82 +90,14 @@ public class Configuration implements Serializable {
 	public void setJavaScriptFile(String javaScriptFile) {
 		this.javaScriptFile = javaScriptFile;
 	}
-
-	public boolean isStoreName() {
-		return storeName;
-	}
-
-	public void setStoreName(boolean storeName) {
-		this.storeName = storeName;
-	}
-
-	public boolean isStoreError() {
-		return storeError;
-	}
-
-	public void setStoreError(boolean storeError) {
-		this.storeError = storeError;
-	}
-
-	public boolean isStoreAlarm() {
-		return storeAlarm;
-	}
-
-	public void setStoreAlarm(boolean storeAlarm) {
-		this.storeAlarm = storeAlarm;
-	}
-
-	public boolean isStoreWarning() {
-		return storeWarning;
-	}
-
-	public void setStoreWarning(boolean storeWarning) {
-		this.storeWarning = storeWarning;
-	}
-
-	public boolean isStoreManual() {
-		return storeManual;
-	}
-
-	public void setStoreManual(boolean storeManual) {
-		this.storeManual = storeManual;
-	}
-
-	public boolean isStoreBlocked() {
-		return storeBlocked;
-	}
-
-	public void setStoreBlocked(boolean storeBlocked) {
-		this.storeBlocked = storeBlocked;
-	}
-
-	public boolean isStoreHeartbeat ()
+	
+	public String getKafkaUrl ()
     {
-        return storeHeartbeat;
+        return kafkaUrl;
     }
 	
-	public void setStoreHeartbeat ( boolean storeHeartbeat )
+	public void setKafkaUrl ( String kafkaUrl )
     {
-        this.storeHeartbeat = storeHeartbeat;
-    }
-	
-	public boolean isStoreEntryTimestamp ()
-    {
-        return storeEntryTimestamp;
-    }
-	
-	public void setStoreEntryTimestamp ( boolean storeEntryTimestamp )
-    {
-        this.storeEntryTimestamp = storeEntryTimestamp;
-    }
-	
-	public String getZookeeperUrl ()
-    {
-        return zookeeperUrl;
-    }
-	
-	public void setZookeeperUrl ( String zookeeperUrl )
-    {
-        this.zookeeperUrl = zookeeperUrl;
+        this.kafkaUrl = kafkaUrl;
     }
 }

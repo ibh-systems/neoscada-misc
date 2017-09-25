@@ -1,0 +1,16 @@
+[Unit]
+Description=Eclipse NeoSCADA preconfigured master server instance 
+After=syslog.target
+After=network.target
+
+[Service]
+ExecStart=/var/lib/eclipsescada/master/launcher.sh
+ExecStop=/bin/kill -TERM $MAINPID
+StandardOutput=null
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=scada.app.master
+WorkingDirectory=/var/lib/eclipsescada/master
+
+[Install]
+WantedBy=multi-user.target

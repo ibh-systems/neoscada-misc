@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?><product name="Master Server" uid="org.eclipse.neoscada.contrib.server.master.product" version="0.9.0" useFeatures="true" includeLaunchers="false">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dosgi.noShutdown=true
+-Declipse.ignoreApp=true
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipse.neoscada.contrib.server.base.feature" version="0.9.0"/>
+      <feature id="org.eclipse.neoscada.contrib.server.master.feature" version="0.9.0"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.gogo.command" autoStart="true" startLevel="1"/>
+      <plugin id="org.apache.felix.gogo.runtime" autoStart="true" startLevel="1"/>
+      <plugin id="org.apache.felix.gogo.shell" autoStart="true" startLevel="1"/>
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2"/>
+      <plugin id="org.eclipse.equinox.console" autoStart="true" startLevel="1"/>
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="1"/>
+      <plugin id="org.eclipse.equinox.util" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.console" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.file" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.server.exporter.ngp" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.server.osgi" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.updater" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.buffer" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.client.connection.service" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.client.ngp" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.connection.provider" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.average" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.changecounter" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.constant" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.delta" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.ds" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.formula" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.item" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.memory" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.movingaverage" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.proxy" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.script" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.sum" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.datasource.totalizer" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.mapper.osgi" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.master.analyzer" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.master.common" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.master.mapper" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.server.common" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.server.exporter.ngp" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.server.osgi" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ds.storage.file" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.audit.log.slf4j" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.auth.logon" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.authn.osgi.cfg.priority" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.authz.signature" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.osgi.manager" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.provider.script" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="0"/>
+      <plugin id="org.openscada.da.server.exporter.iec60870" autoStart="true" startLevel="0"/>
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>
