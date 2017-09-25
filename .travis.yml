@@ -17,7 +17,7 @@ install:
 
 script:
   - travis_wait 30 mvn clean install
-  - travis_wait 30 mvn -s settings.xml -P integration deploy
+#  - travis_wait 30 mvn -s settings.xml -P integration deploy
 
 # The following upgrades Java during the build in
 # order to work around an older Java 8 compiler issue
