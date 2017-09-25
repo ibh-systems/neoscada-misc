@@ -16,8 +16,7 @@ install:
   - hash -r
 
 script:
-  - travis_wait mvn clean
-  - travis_wait mvn install
+  - travis_wait mvn clean install
   - travis_wait mvn -s settings.xml -P integration deploy
 
 # The following upgrades Java during the build in

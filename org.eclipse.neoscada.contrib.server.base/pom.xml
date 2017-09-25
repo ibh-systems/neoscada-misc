@@ -67,8 +67,8 @@
 				<configuration>
 					<target>
 						<artifact>
-							<groupId>org.eclipse.neoscada.contrib.server</groupId>
-							<artifactId>targetPlatform</artifactId>
+							<groupId>org.eclipse.neoscada.contrib</groupId>
+							<artifactId>server-targetPlatform</artifactId>
 							<version>${project.version}</version>
 						</artifact>
 					</target>

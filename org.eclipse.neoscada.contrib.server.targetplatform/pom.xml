@@ -9,6 +9,6 @@
 		<relativePath>../org.eclipse.neoscada.contrib.server.base</relativePath>
 	</parent>
 
-	<artifactId>targetPlatform</artifactId>
+	<artifactId>server-targetPlatform</artifactId>
 	<packaging>eclipse-target-definition</packaging>
 </project>
