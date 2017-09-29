@@ -93,8 +93,6 @@
 									<type>link</type>
 									<linkName>/var/lib/eclipsescada/master/launcher</linkName>
 									<linkTarget>/usr/bin/p2.launcher</linkTarget>
-									<user>eclipsescada</user>
-									<group>eclipsescada</group>
 									<symlink>true</symlink>
 								</data>
 							</dataSet>
