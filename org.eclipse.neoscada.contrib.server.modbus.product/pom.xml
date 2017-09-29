@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<artifactId>org.eclipse.neoscada.contrib.server.base</artifactId>
-		<version>0.9.0</version>
+		<version>0.9.1</version>
 		<relativePath>../org.eclipse.neoscada.contrib.server.base</relativePath>
 	</parent>
 
@@ -77,21 +77,23 @@
 										<group>eclipsescada</group>
 									</mapper>
 								</data>
-                                <data>
-                                    <src>${basedir}/deb/var/lib/eclipsescada/modbus/launcher.sh</src>
-                                    <type>file</type>
-                                    <mapper>
-                                        <type>perm</type>
-                                        <prefix>/var/lib/eclipsescada/modbus</prefix>
-                                        <user>eclipsescada</user>
-                                        <group>eclipsescada</group>
-                                        <filemode>744</filemode>
-                                    </mapper>
-                                </data>
+								<data>
+									<src>${basedir}/deb/var/lib/eclipsescada/modbus/launcher.sh</src>
+									<type>file</type>
+									<mapper>
+										<type>perm</type>
+										<prefix>/var/lib/eclipsescada/modbus</prefix>
+										<user>eclipsescada</user>
+										<group>eclipsescada</group>
+										<filemode>744</filemode>
+									</mapper>
+								</data>
 								<data>
 									<type>link</type>
 									<linkName>/var/lib/eclipsescada/modbus/launcher</linkName>
-									<linkTarget>/usr/bin/equinox.launcher</linkTarget>
+									<linkTarget>/usr/bin/p2.launcher</linkTarget>
+									<user>eclipsescada</user>
+									<group>eclipsescada</group>
 									<symlink>true</symlink>
 								</data>
 							</dataSet>

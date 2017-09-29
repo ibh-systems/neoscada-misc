@@ -12,6 +12,7 @@
 		<module>org.eclipse.neoscada.contrib.status</module>
 		<module>com.ibh.systems.neoscada.iec104slave</module>
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
+        <module>com.ibh.systems.neoscada.generator.lib</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.kafka</module>

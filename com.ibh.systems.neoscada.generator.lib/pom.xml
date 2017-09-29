@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>com.ibh.systems.neoscada.generator.lib</artifactId>
 	<groupId>com.ibh.systems.neoscada</groupId>
-	<version>0.9.0</version>
+	<version>0.9.1</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -45,7 +45,30 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>21.0</version>
+			<version>22.0</version>
 		</dependency>
 	</dependencies>
+
+    <profiles>
+        <profile>
+            <id>integration</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+
+            <properties>
+                <openscada.releaseType>integration</openscada.releaseType>
+                <repo.upload>true</repo.upload>
+            </properties>
+
+            <distributionManagement>
+                <downloadUrl>http://thedrone.packagedrone.org/maven/neoscada-contrib</downloadUrl>
+                <repository>
+                    <id>neoscada-contrib</id>
+                    <name>NeoSCADA Contrib Maven Repository</name>
+                    <url>http://thedrone.packagedrone.org/maven/neoscada-contrib</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
 </project>
