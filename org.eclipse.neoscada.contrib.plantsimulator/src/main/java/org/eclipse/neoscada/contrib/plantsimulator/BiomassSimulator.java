@@ -7,9 +7,9 @@ public class BiomassSimulator extends CommonSimulator
 {
     private final static Logger logger = LoggerFactory.getLogger ( BiomassSimulator.class );
 
-    public BiomassSimulator ( WeatherProvider wp, PlantConfig plantConfig )
+    public BiomassSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig )
     {
-        super ( wp, plantConfig );
+        super ( statistics, wp, plantConfig );
     }
 
     @Override

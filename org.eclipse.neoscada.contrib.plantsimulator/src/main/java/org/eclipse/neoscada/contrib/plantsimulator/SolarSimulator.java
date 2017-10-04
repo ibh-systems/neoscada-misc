@@ -7,9 +7,9 @@ public class SolarSimulator extends CommonSimulator
 {
     private final static Logger logger = LoggerFactory.getLogger ( SolarSimulator.class );
 
-    public SolarSimulator ( WeatherProvider wp, PlantConfig plantConfig )
+    public SolarSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig )
     {
-        super ( wp, plantConfig );
+        super ( statistics, wp, plantConfig );
     }
 
     @Override

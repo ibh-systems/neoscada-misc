@@ -69,8 +69,11 @@ public abstract class CommonSimulator
 
     private SimulatorModel dataModel;
 
-    protected CommonSimulator ( WeatherProvider wp, PlantConfig plantConfig )
+    private Statistics statistics;
+
+    protected CommonSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig )
     {
+        this.statistics = statistics;
         this.rnd = new Random ( plantConfig.getSeed () );
         this.scheduledExecutorService = Executors.newSingleThreadScheduledExecutor ( new ThreadFactoryBuilder ().setNameFormat ( plantConfig.getName () + "-%d" ).build () );
         this.wp = wp;
@@ -193,7 +196,7 @@ public abstract class CommonSimulator
             }
             catch ( Exception e )
             {
-                e.printStackTrace ();
+                logger.error ( "handleModbus () failed:", e );
             }
         }
         else if ( plantConfig.getConnectionType () == ConnectionType.IEC104 )
@@ -204,7 +207,8 @@ public abstract class CommonSimulator
             }
             catch ( Exception e )
             {
-                e.printStackTrace ();
+                logger.error ( "handleIec () failed:", e );
+                disposeIec104Server ();
             }
         }
     }
@@ -212,19 +216,10 @@ public abstract class CommonSimulator
     private void handleIec () throws Exception
     {
         CalculatedPower cp = calculatedPower.get ();
-        logger.trace ( "handleIec for {}: down = {}, error = {}, unavailable = {}, toggle = {}, cp = {}", new Object[] { plantConfig.getName (), isDown, isError, unavailable, toggle, cp } );
+        logger.trace ( "handleIec for {}: down = {}, error = {}, unavailable = {}, toggle = {}, cp = {}, numOfServersOverall = {}", new Object[] { plantConfig.getName (), isDown, isError, unavailable, toggle, cp, statistics.getNumberOfIecServers ().get () } );
         if ( isDown )
         {
-            if ( server != null )
-            {
-                server.close ();
-                server = null;
-            }
-            if ( dataModel != null )
-            {
-                dataModel.dispose ();
-                dataModel = null;
-            }
+            disposeIec104Server ();
         }
         else if ( server == null )
         {
@@ -235,10 +230,40 @@ public abstract class CommonSimulator
             List<ServerModule> sm = new ArrayList<> ();
             sm.add ( d );
             server = new Server ( address.getPort (), protocolOptions, sm );
+            statistics.getNumberOfIecServers ().incrementAndGet ();
         }
         else
         {
             dataModel.update ();
+        }
+    }
+
+    private void disposeIec104Server ()
+    {
+        if ( server != null )
+        {
+            try
+            {
+                statistics.getNumberOfIecServers ().decrementAndGet ();
+                server.close ();
+            }
+            catch ( Exception e )
+            {
+                logger.error ( "disposeIec104Server : server.close () failed:", e );
+            }
+            server = null;
+        }
+        if ( dataModel != null )
+        {
+            try
+            {
+                dataModel.dispose ();
+            }
+            catch ( Exception e )
+            {
+                logger.error ( "disposeIec104Server : dataModel.dispose () failed:", e );
+            }
+            dataModel = null;
         }
     }
 

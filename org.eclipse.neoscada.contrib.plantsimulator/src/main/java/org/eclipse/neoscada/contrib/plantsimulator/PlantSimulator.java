@@ -22,6 +22,7 @@ public class PlantSimulator
         BufferedReader br = new BufferedReader ( new InputStreamReader ( is, Charsets.UTF_8 ) );
         List<PlantConfig> plantConfigs = new GsonBuilder ().create ().fromJson ( br, listType );
 
+        Statistics statistics = new Statistics ();
         int i = 0;
         for ( PlantConfig plantConfig : plantConfigs )
         {
@@ -29,13 +30,13 @@ public class PlantSimulator
             switch ( plantConfig.getPlantType () )
             {
                 case WIND:
-                    new WindSimulator ( wp, plantConfig ).run ();
+                    new WindSimulator ( statistics, wp, plantConfig ).run ();
                     break;
                 case SOLAR:
-                    new SolarSimulator ( wp, plantConfig ).run ();
+                    new SolarSimulator ( statistics, wp, plantConfig ).run ();
                     break;
                 case BIOMASS:
-                    new BiomassSimulator ( wp, plantConfig ).run ();
+                    new BiomassSimulator ( statistics, wp, plantConfig ).run ();
                     break;
             }
             if ( i >= numOfPlants )
