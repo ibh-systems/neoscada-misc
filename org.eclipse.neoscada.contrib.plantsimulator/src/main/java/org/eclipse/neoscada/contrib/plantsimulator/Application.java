@@ -45,6 +45,9 @@ public class Application
     @Option ( name = "-f", aliases = "--portfolio", usage = "plants to simulate" )
     private String portfolio;
 
+    @Option ( name = "-d", aliases = "--period", usage = "period in milliseconds" )
+    private int period = 10000;
+
     public static void main ( String[] args ) throws Exception
     {
         System.setProperty ( "java.net.preferIPv4Stack", "true" );
@@ -74,7 +77,7 @@ public class Application
                         is = new FileInputStream ( this.portfolio );
                     }
                     WeatherProvider wp = new WeatherProvider();
-                    new PlantSimulator ().run ( wp, is, numOfPlants );
+                    new PlantSimulator ().run ( wp, is, numOfPlants, period );
                     break;
                 default:
                     parser.printUsage ( System.err );

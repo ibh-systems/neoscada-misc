@@ -14,7 +14,7 @@ import com.google.gson.GsonBuilder;
 public class PlantSimulator
 {
 
-    public void run ( WeatherProvider wp, InputStream is, int numOfPlants )
+    public void run ( WeatherProvider wp, InputStream is, int numOfPlants, int period )
     {
         Type listType = new TypeToken<ArrayList<PlantConfig>> () {
             private static final long serialVersionUID = 1L;
@@ -30,13 +30,13 @@ public class PlantSimulator
             switch ( plantConfig.getPlantType () )
             {
                 case WIND:
-                    new WindSimulator ( statistics, wp, plantConfig ).run ();
+                    new WindSimulator ( statistics, wp, plantConfig, period ).run ();
                     break;
                 case SOLAR:
-                    new SolarSimulator ( statistics, wp, plantConfig ).run ();
+                    new SolarSimulator ( statistics, wp, plantConfig, period ).run ();
                     break;
                 case BIOMASS:
-                    new BiomassSimulator ( statistics, wp, plantConfig ).run ();
+                    new BiomassSimulator ( statistics, wp, plantConfig, period ).run ();
                     break;
             }
             if ( i >= numOfPlants )

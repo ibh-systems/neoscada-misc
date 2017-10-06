@@ -70,8 +70,10 @@ public abstract class CommonSimulator
     private SimulatorModel dataModel;
 
     private Statistics statistics;
+    
+    private int period;
 
-    protected CommonSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig )
+    protected CommonSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig, int period )
     {
         this.statistics = statistics;
         this.rnd = new Random ( plantConfig.getSeed () );
@@ -79,6 +81,7 @@ public abstract class CommonSimulator
         this.wp = wp;
         this.plantConfig = plantConfig;
         address = new InetSocketAddress ( "0.0.0.0", plantConfig.getPort () );
+        this.period = period;
     }
 
     public void run ()
@@ -90,7 +93,7 @@ public abstract class CommonSimulator
             {
                 nextStepInternal ();
             }
-        }, 4, 10, TimeUnit.SECONDS );
+        }, 4, this.period, TimeUnit.MILLISECONDS );
     }
 
     private void nextStepInternal ()

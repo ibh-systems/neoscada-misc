@@ -7,9 +7,9 @@ public class WindSimulator extends CommonSimulator
 {
     private final static Logger logger = LoggerFactory.getLogger ( WindSimulator.class );
 
-    public WindSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig )
+    public WindSimulator ( Statistics statistics, WeatherProvider wp, PlantConfig plantConfig, int period )
     {
-        super ( statistics, wp, plantConfig );
+        super ( statistics, wp, plantConfig, period );
     }
 
     @Override
