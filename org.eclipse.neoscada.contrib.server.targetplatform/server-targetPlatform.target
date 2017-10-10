@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="Target Platform for preconfigured NeoSCADA instances" sequenceNumber="1506324892">
+<target name="Target Platform for preconfigured NeoSCADA instances" sequenceNumber="1507625628">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.equinox.sdk.feature.group" version="3.11.2.v20160202-2102"/>
@@ -61,10 +61,10 @@
       <repository location="http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/updates/release/0.3/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.openscada.atlantis.sdk.feature.group" version="1.5.0.201709221406"/>
-      <unit id="org.openscada.external.sdk.feature.group" version="1.5.0.201709221406"/>
-      <unit id="org.openscada.utgard.sdk.feature.group" version="1.5.0.201709221406"/>
-      <unit id="org.openscada.jinterop.sdk.feature.group" version="1.5.0.201709221406"/>
+      <unit id="org.openscada.atlantis.sdk.feature.group" version="1.5.0.201710061536"/>
+      <unit id="org.openscada.external.sdk.feature.group" version="1.5.0.201710061536"/>
+      <unit id="org.openscada.utgard.sdk.feature.group" version="1.5.0.201710061536"/>
+      <unit id="org.openscada.jinterop.sdk.feature.group" version="1.5.0.201710061536"/>
       <repository location="http://thedrone.packagedrone.org/p2/openscada-1.5-integration/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
