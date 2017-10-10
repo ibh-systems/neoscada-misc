@@ -248,7 +248,7 @@ public abstract class CommonSimulator
             try
             {
                 statistics.getNumberOfIecServers ().decrementAndGet ();
-                server.close ();
+                server.closeAndWait ();
             }
             catch ( Exception e )
             {
