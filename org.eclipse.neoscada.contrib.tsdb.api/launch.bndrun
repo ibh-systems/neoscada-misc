@@ -1,0 +1,21 @@
+-standalone: target/index.xml
+
+-runfw: org.apache.felix.framework;version=5.6
+-runee: JavaSE-1.8
+#-runvm: "-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=7001"
+-runprovidedcapabilities: ${native_capability}
+
+-resolve.effective: active; skip:="osgi.service"
+
+-runrequires: \
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.command)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.gogo.shell)',\
+	osgi.identity;filter:='(osgi.identity=org.apache.felix.log)',\
+	osgi.identity;filter:='(osgi.identity=org.eclipse.neoscada.contrib.tsdb.api)'
+
+-runbundles: \
+	org.apache.felix.gogo.command;version='[1.0.2,1.0.3)',\
+	org.apache.felix.gogo.runtime;version='[1.0.6,1.0.7)',\
+	org.apache.felix.gogo.shell;version='[1.0.0,1.0.1)',\
+	org.apache.felix.log;version='[1.0.1,1.0.2)',\
+	org.eclipse.neoscada.contrib.tsdb.api;version='[0.9.5,0.9.6)'

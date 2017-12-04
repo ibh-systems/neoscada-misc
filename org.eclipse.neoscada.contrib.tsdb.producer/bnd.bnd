@@ -1,0 +1,4 @@
+Import-Package: \
+	org.eclipse.scada.da.client.ngp;version=0.2.0,\
+	com.google.common.collect;version=0.18.0,\
+	*

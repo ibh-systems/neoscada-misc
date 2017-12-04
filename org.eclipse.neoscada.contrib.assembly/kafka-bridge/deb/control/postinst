@@ -1,0 +1,7 @@
+#!/bin/sh
+
+systemctl daemon-reload
+systemctl enable scada.app.kafka-bridge
+systemctl start scada.app.kafka-bridge
+
+exit 0

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+systemctl daemon-reload
+systemctl start scada.app.iec104
+
+exit 0

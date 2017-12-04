@@ -1,0 +1,3 @@
+#!/bin/bash
+
+/usr/bin/java -jar -Dlogback.configurationFile=/var/lib/eclipsescada/kafka-bridge/logback.xml /var/lib/eclipsescada/kafka-bridge/org.eclipse.neoscada.contrib.kafka.jar /var/lib/eclipsescada/kafka-bridge/config.json

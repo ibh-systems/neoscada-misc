@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?pde version="3.5"?><product name="Master Server" uid="org.eclipse.neoscada.contrib.server.modbus.product" version="0.9.5" useFeatures="true" includeLaunchers="false">
+<?pde version="3.5"?><product name="Master Server" uid="org.eclipse.neoscada.contrib.server.modbus.product" version="0.10.0" useFeatures="true" includeLaunchers="false">
 
    <configIni use="default">
    </configIni>
@@ -28,8 +28,8 @@
    </plugins>
 
    <features>
-      <feature id="org.eclipse.neoscada.contrib.server.base.feature" version="0.9.5"/>
-      <feature id="org.eclipse.neoscada.contrib.server.modbus.feature" version="0.9.5"/>
+      <feature id="org.eclipse.neoscada.contrib.server.base.feature" version="0.10.0"/>
+      <feature id="org.eclipse.neoscada.contrib.server.modbus.feature" version="0.10.0"/>
    </features>
 
    <configurations>

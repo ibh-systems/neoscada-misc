@@ -5,21 +5,151 @@
 
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
-	<version>0.9.5</version>
+	<version>0.10.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>org.eclipse.neoscada.contrib.server.base</module>
+		
 		<module>org.eclipse.neoscada.contrib.status</module>
 		<module>com.ibh.systems.neoscada.iec104slave</module>
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
-        <module>com.ibh.systems.neoscada.generator.lib</module>
+		<module>com.ibh.systems.neoscada.generator.lib</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
-		<module>org.eclipse.neoscada.contrib.kafka</module>
-		<module>org.eclipse.neoscada.contrib.server.base</module>
+
+		<module>org.eclipse.neoscada.contrib.index</module>
+		<module>org.eclipse.neoscada.contrib.runtime</module>
+		<module>org.eclipse.neoscada.contrib.assembly</module>
+		<module>org.eclipse.neoscada.contrib.tsdb.api</module>
+		<module>org.eclipse.neoscada.contrib.tsdb.producer</module>
+		<module>org.eclipse.neoscada.contrib.tsdb.consumer.jdbc</module>
+		<module>org.eclipse.neoscada.contrib.tsdb.consumer.kafka</module>
 	</modules>
 
+	<properties>
+		<local.index.policy>REQUIRED</local.index.policy>
+		<bnd.maven.version>3.5.0</bnd.maven.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>oss-sonatype</id>
+			<name>oss-sonatype</name>
+			<url>https://oss.sonatype.org/content/repositories/osgi/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>bnd.master</id>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<url>https://bndtools.ci.cloudbees.com/job/bnd.master/lastSuccessfulBuild/artifact/dist/bundles</url>
+		</pluginRepository>
+	</pluginRepositories>
+
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>biz.aQute.bnd</groupId>
+					<artifactId>bnd-maven-plugin</artifactId>
+					<version>${bnd.maven.version}</version>
+					<configuration>
+						<bnd><![CDATA[
+# Automatically export any package annotated with @Version in its package-info.java
+-exportcontents: ${packages;VERSIONED}
+
+# Generate an OSGi Contract Requirement for bundles that depend on the Servlet API
+# (see https://www.osgi.org/portable-java-contract-definitions/)
+-contract: JavaServlet
+  
+# Force Declarative Services bundles to declare a requirement for DS version 1.3
+# even when they only use features from a previous version
+-dsannotations-options: extender, inherit
+            ]]>
+						</bnd>
+					</configuration>
+					<executions>
+						<execution>
+							<id>default-bnd-process</id>
+							<goals>
+								<goal>bnd-process</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>biz.aQute.bnd</groupId>
+					<artifactId>bnd-indexer-maven-plugin</artifactId>
+					<version>${bnd.maven.version}</version>
+					<configuration>
+						<includeJar>true</includeJar>
+						<localURLs>${local.index.policy}</localURLs>
+					</configuration>
+					<executions>
+						<execution>
+							<id>default-index</id>
+							<goals>
+								<goal>index</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>biz.aQute.bnd</groupId>
+					<artifactId>bnd-export-maven-plugin</artifactId>
+					<version>${bnd.maven.version}</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>export</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>biz.aQute.bnd</groupId>
+					<artifactId>bnd-testing-maven-plugin</artifactId>
+					<version>${bnd.maven.version}</version>
+					<configuration>
+						<resolve>true</resolve>
+						<failOnChanges>true</failOnChanges>
+					</configuration>
+					<executions>
+						<execution>
+							<goals>
+								<goal>testing</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<archive>
+							<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+						</archive>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+
 		<plugins>
 			<plugin>
 				<groupId>org.apache.felix</groupId>
@@ -27,8 +157,60 @@
 				<version>3.3.0</version>
 				<extensions>true</extensions>
 			</plugin>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-indexer-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- PROVIDED -->
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.core</artifactId>
+				<version>6.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.cmpn</artifactId>
+				<version>6.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.annotation</artifactId>
+				<version>6.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+
+			<!-- TEST -->
+			<dependency>
+				<groupId>junit</groupId>
+				<artifactId>junit</artifactId>
+				<version>4.12</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>slf4j-api</artifactId>
+				<version>1.7.25</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.service.jdbc</artifactId>
+				<version>1.0.0</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 
 	<profiles>
 		<profile>
@@ -48,6 +230,27 @@
 					<id>neoscada-contrib</id>
 					<name>NeoSCADA Contrib Maven Repository</name>
 					<url>http://thedrone.packagedrone.org/maven/neoscada-contrib</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<properties>
+				<openscada.releaseType>integration</openscada.releaseType>
+				<repo.upload>true</repo.upload>
+			</properties>
+
+			<distributionManagement>
+				<downloadUrl>http://thedrone.packagedrone.org/maven/neoscada-contrib-dev</downloadUrl>
+				<repository>
+					<id>neoscada-contrib</id>
+					<name>NeoSCADA Contrib Maven Repository</name>
+					<url>http://thedrone.packagedrone.org/maven/neoscada-contrib-dev</url>
 				</repository>
 			</distributionManagement>
 		</profile>

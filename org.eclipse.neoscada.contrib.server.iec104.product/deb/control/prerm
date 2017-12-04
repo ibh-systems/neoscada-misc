@@ -1,0 +1,5 @@
+#!/bin/sh
+
+systemctl stop scada.app.iec104
+
+exit 0

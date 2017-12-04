@@ -1,0 +1,17 @@
+[Unit]
+Description=Kafka Adapter for Eclipse NeoSCADA
+After=syslog.target
+After=network.target
+ 
+[Service]
+Type=simple
+ExecStart=/var/lib/eclipsescada/kafka-bridge/launcher.sh
+ExecStop=/bin/kill -TERM $MAINPID
+TimeoutSec=300
+WorkingDirectory=/var/lib/eclipsescada/kafka-bridge
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=neoscada-kafka-bridge
+ 
+[Install]
+WantedBy=multi-user.target

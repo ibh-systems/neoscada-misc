@@ -1,0 +1,16 @@
+[Unit]
+Description=Eclipse NeoSCADA preconfigured iec104 driver instance 
+After=syslog.target
+After=network.target
+
+[Service]
+ExecStart=/var/lib/eclipsescada/iec104/launcher.sh
+ExecStop=/bin/kill -TERM $MAINPID
+StandardOutput=null
+User=eclipsescada
+Group=eclipsescada
+SyslogIdentifier=scada.app.iec104
+WorkingDirectory=/var/lib/eclipsescada/iec104
+
+[Install]
+WantedBy=multi-user.target

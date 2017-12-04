@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?><product name="IEC 104 Server" uid="org.eclipse.neoscada.contrib.server.iec104.product" version="0.10.0" useFeatures="true" includeLaunchers="false">
+
+   <configIni use="default">
+   </configIni>
+
+   <launcherArgs>
+      <vmArgs>-Dosgi.noShutdown=true
+-Declipse.ignoreApp=true
+      </vmArgs>
+      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      </vmArgsMac>
+   </launcherArgs>
+
+   <windowImages/>
+
+   <launcher>
+      <solaris/>
+      <win useIco="false">
+         <bmp/>
+      </win>
+   </launcher>
+
+   <vm>
+   </vm>
+
+   <plugins>
+   </plugins>
+
+   <features>
+      <feature id="org.eclipse.neoscada.contrib.server.base.feature" version="0.10.0"/>
+      <feature id="org.eclipse.neoscada.contrib.server.iec104.feature" version="0.10.0"/>
+   </features>
+
+   <configurations>
+      <plugin id="org.apache.felix.gogo.command" autoStart="true" startLevel="1"/>
+      <plugin id="org.apache.felix.gogo.runtime" autoStart="true" startLevel="1"/>
+      <plugin id="org.apache.felix.gogo.shell" autoStart="true" startLevel="1"/>
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="2"/>
+      <plugin id="org.eclipse.equinox.console" autoStart="true" startLevel="1"/>
+      <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="1"/>
+      <plugin id="org.eclipse.equinox.util" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.console" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.file" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.server.exporter.ngp" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.server.osgi" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.ca.updater" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.server.common" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.server.exporter.ngp" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.da.server.osgi" autoStart="false" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.audit.log.slf4j" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.auth.logon" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.authn.osgi.cfg.priority" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.authz.signature" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.osgi.manager" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.scada.sec.provider.script" autoStart="true" startLevel="0"/>
+      <plugin id="org.eclipse.update.configurator" autoStart="true" startLevel="0"/>
+      <plugin id="org.openscada.da.server.iec60870" autoStart="true" startLevel="0"/>
+   </configurations>
+
+   <preferencesInfo>
+      <targetfile overwrite="false"/>
+   </preferencesInfo>
+
+   <cssInfo>
+   </cssInfo>
+
+</product>
