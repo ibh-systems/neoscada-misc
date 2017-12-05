@@ -5,7 +5,7 @@ After=network.target
  
 [Service]
 Type=simple
-ExecStart=/usr/bin/java -jar -Dlogback.configurationFile=/var/lib/eclipsescada/status/logback.xml /var/lib/eclipsescada/status/org.eclipse.neoscada.contrib.status.jar /var/lib/eclipsescada/status/config.json
+ExecStart=/usr/bin/java -Dorg.jboss.logging.provider=slf4j -Dlogback.configurationFile=/var/lib/eclipsescada/status/logback.xml -jar /var/lib/eclipsescada/status/org.eclipse.neoscada.contrib.status.jar /var/lib/eclipsescada/status/config.json
 ExecStop=/bin/kill -TERM $MAINPID
 TimeoutSec=300
 WorkingDirectory=/var/lib/eclipsescada/status

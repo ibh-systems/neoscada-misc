@@ -112,6 +112,14 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 		</dependency>
@@ -126,17 +134,14 @@
 		<dependency>
 			<groupId>org.openscada.atlantis</groupId>
 			<artifactId>org.openscada.protocol.iec60870</artifactId>
-			<version>${openscada.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openscada.atlantis</groupId>
 			<artifactId>org.openscada.protocol.iec60870.client</artifactId>
-			<version>${openscada.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.openscada.atlantis</groupId>
 			<artifactId>org.openscada.protocol.iec60870.client.data</artifactId>
-			<version>${openscada.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
