@@ -42,10 +42,6 @@
 					</executions>
 				</plugin>
 				<plugin>
-					<artifactId>jdeb</artifactId>
-					<groupId>org.vafer</groupId>
-				</plugin>
-				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
 					<version>1.8</version>
 				</plugin>

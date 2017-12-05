@@ -203,11 +203,19 @@
 				<groupId>org.slf4j</groupId>
 				<artifactId>log4j-over-slf4j</artifactId>
 				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.slf4j</groupId>
+				<artifactId>jcl-over-slf4j</artifactId>
+				<version>${slf4j.version}</version>
+				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>ch.qos.logback</groupId>
 				<artifactId>logback-classic</artifactId>
 				<version>${logback.version}</version>
+				<scope>runtime</scope>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
@@ -243,6 +251,31 @@
 				<groupId>io.undertow</groupId>
 				<artifactId>undertow-core</artifactId>
 				<version>1.4.21.Final</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openscada.atlantis</groupId>
+				<artifactId>org.openscada.protocol.iec60870</artifactId>
+				<version>${openscada.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openscada.atlantis</groupId>
+				<artifactId>org.openscada.protocol.iec60870.client</artifactId>
+				<version>${openscada.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openscada.atlantis</groupId>
+				<artifactId>org.openscada.protocol.iec60870.client.data</artifactId>
+				<version>${openscada.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openscada.atlantis</groupId>
+				<artifactId>org.openscada.protocol.iec60870.server</artifactId>
+				<version>${openscada.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.openscada.atlantis</groupId>
+				<artifactId>org.openscada.protocol.iec60870.server.data</artifactId>
+				<version>${openscada.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

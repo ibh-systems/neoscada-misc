@@ -13,7 +13,6 @@ package com.ibh.systems.neoscada.iec104example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -33,9 +32,7 @@ import org.eclipse.neoscada.protocol.iec60870.server.data.event.SimpleFloatBuild
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.common.base.Function;
 import com.google.common.util.concurrent.ListenableFuture;
-import com.google.common.util.concurrent.ThreadFactoryBuilder;
 
 public class SineDataModel extends AbstractBaseDataModel
 {
