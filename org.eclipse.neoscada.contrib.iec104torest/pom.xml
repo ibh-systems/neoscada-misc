@@ -147,7 +147,6 @@
 			<groupId>org.eclipse.neoscada.utils</groupId>
 			<artifactId>org.eclipse.scada.utils</artifactId>
 			<version>0.3.0</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>
