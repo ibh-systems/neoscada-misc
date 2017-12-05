@@ -17,8 +17,8 @@ install:
 
 script:
 #  - travis_wait 30 mvn -s settings.xml -B -P development clean
-  - travis_wait 30 mvn -s settings.xml -B -P development install
-  - travis_wait 30 mvn -s settings.xml -B -P development deploy
+  - travis_wait 30 mvn -Dmaven.test.skip=true -s settings.xml -B -P development install
+  - travis_wait 30 mvn -Dmaven.test.skip=true -s settings.xml -B -P development deploy
 
 # The following upgrades Java during the build in
 # order to work around an older Java 8 compiler issue
