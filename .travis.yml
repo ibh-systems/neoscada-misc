@@ -16,7 +16,7 @@ install:
   - hash -r
 
 script:
-  - travis_wait 30 mvn -s settings.xml -B -P development clean
+#  - travis_wait 30 mvn -s settings.xml -B -P development clean
   - travis_wait 30 mvn -s settings.xml -B -P development install
   - travis_wait 30 mvn -s settings.xml -B -P development deploy
 
