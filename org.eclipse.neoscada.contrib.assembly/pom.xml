@@ -38,7 +38,6 @@
 			<plugin>
 				<artifactId>jdeb</artifactId>
 				<groupId>org.vafer</groupId>
-				<version>1.5</version>
 				<executions>
 					<execution>
 						<id>kafka-bridge-systemd</id>
@@ -47,7 +46,7 @@
 							<goal>jdeb</goal>
 						</goals>
 						<configuration>
-							<deb>${project.build.directory}/org.eclipse.neoscada.contrib.kafka_${version}.deb</deb>
+							<deb>${project.build.directory}/org.eclipse.neoscada.contrib.kafka_${project.version}.deb</deb>
 							<verbose>true</verbose>
 							<controlDir>${basedir}/kafka-bridge/deb/control</controlDir>
 							<dataSet>
