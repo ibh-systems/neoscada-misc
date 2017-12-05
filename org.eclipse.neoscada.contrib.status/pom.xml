@@ -11,25 +11,11 @@
 
 	<artifactId>org.eclipse.neoscada.contrib.status</artifactId>
 
-	<properties>
-		<maven.compiler.source>1.7</maven.compiler.source>
-		<maven.compiler.target>1.7</maven.compiler.target>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.felix</groupId>
-				<artifactId>maven-bundle-plugin</artifactId>
-                <version>3.3.0</version>
-				<extensions>true</extensions>
-			</plugin>
-			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
-				<version>3.0.0</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -63,7 +49,6 @@
 			<plugin>
 				<artifactId>jdeb</artifactId>
 				<groupId>org.vafer</groupId>
-				<version>1.5</version>
 				<executions>
 					<execution>
 						<id>upstart</id>
@@ -124,25 +109,6 @@
 			</plugin>
 		</plugins>
 	</build>
-
-	<repositories>
-		<repository>
-			<releases>
-				<enabled>false</enabled>
-				<updatePolicy>never</updatePolicy>
-				<checksumPolicy>warn</checksumPolicy>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-				<updatePolicy>always</updatePolicy>
-				<checksumPolicy>fail</checksumPolicy>
-			</snapshots>
-			<id>openSCADA</id>
-			<name>openSCADA</name>
-			<url>https://thedrone.packagedrone.org/maven/openscada-1.5-integration/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
 
 	<dependencies>
 		<dependency>

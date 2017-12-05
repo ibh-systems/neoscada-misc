@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<artifactId>org.eclipse.neoscada.contrib</artifactId>
+		<groupId>org.eclipse.neoscada.contrib</groupId>
+		<version>0.10.0</version>
+	</parent>
+
+	<artifactId>org.eclipse.neoscada.contrib.bnd-parent</artifactId>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>../org.eclipse.neoscada.contrib.index</module>
+		<module>../org.eclipse.neoscada.contrib.runtime</module>
+		<module>../org.eclipse.neoscada.contrib.assembly</module>
+		<module>../org.eclipse.neoscada.contrib.tsdb.api</module>
+		<module>../org.eclipse.neoscada.contrib.tsdb.producer</module>
+		<module>../org.eclipse.neoscada.contrib.tsdb.consumer.jdbc</module>
+		<module>../org.eclipse.neoscada.contrib.tsdb.consumer.kafka</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-indexer-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencyManagement>
+		<dependencies>
+			<!-- PROVIDED -->
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.core</artifactId>
+				<version>6.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.cmpn</artifactId>
+				<version>6.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>osgi.annotation</artifactId>
+				<version>6.0.1</version>
+				<scope>provided</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.service.jdbc</artifactId>
+				<version>1.0.0</version>
+				<scope>provided</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+</project>

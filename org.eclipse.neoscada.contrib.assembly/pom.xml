@@ -5,9 +5,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<artifactId>org.eclipse.neoscada.contrib</artifactId>
+		<artifactId>org.eclipse.neoscada.contrib.bnd-parent</artifactId>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<version>0.10.0</version>
+		<relativePath>../org.eclipse.neoscada.contrib.bnd-parent</relativePath>
 	</parent>
 	<artifactId>org.eclipse.neoscada.contrib.assembly</artifactId>
 

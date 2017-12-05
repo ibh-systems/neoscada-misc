@@ -1,55 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <modelVersion>4.0.0</modelVersion>
+	<parent>
+		<artifactId>org.eclipse.neoscada.contrib.bnd-parent</artifactId>
+		<groupId>org.eclipse.neoscada.contrib</groupId>
+		<version>0.10.0</version>
+		<relativePath>../org.eclipse.neoscada.contrib.bnd-parent</relativePath>
+	</parent>
+	<artifactId>org.eclipse.neoscada.contrib.index</artifactId>
+	<packaging>pom</packaging>
 
-  <parent>
-    <artifactId>org.eclipse.neoscada.contrib</artifactId>
-    <groupId>org.eclipse.neoscada.contrib</groupId>
-    <version>0.10.0</version>
-  </parent>
-  <artifactId>org.eclipse.neoscada.contrib.index</artifactId>
-  <packaging>pom</packaging>
+	<dependencies>
+		<!-- Distribution Dependency -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.eclipse.neoscada.contrib.runtime</artifactId>
+			<version>${project.version}</version>
+			<scope>runtime</scope>
+			<type>pom</type>
+		</dependency>
 
-  <dependencies>
-    <!-- Distribution Dependency -->
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.neoscada.contrib.runtime</artifactId>
-      <version>${project.version}</version>
-      <scope>runtime</scope>
-      <type>pom</type>
-    </dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.eclipse.neoscada.contrib.tsdb.api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.eclipse.neoscada.contrib.tsdb.producer</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.eclipse.neoscada.contrib.tsdb.consumer.jdbc</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>org.eclipse.neoscada.contrib.tsdb.consumer.kafka</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	</dependencies>
 
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.neoscada.contrib.tsdb.api</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.neoscada.contrib.tsdb.producer</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.neoscada.contrib.tsdb.consumer.jdbc</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>${project.groupId}</groupId>
-      <artifactId>org.eclipse.neoscada.contrib.tsdb.consumer.kafka</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-  </dependencies>
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>biz.aQute.bnd</groupId>
-        <artifactId>bnd-indexer-maven-plugin</artifactId>
-      </plugin>
-    </plugins>
-  </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>biz.aQute.bnd</groupId>
+				<artifactId>bnd-indexer-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
 
 </project>
