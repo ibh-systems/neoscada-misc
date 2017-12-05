@@ -3,12 +3,13 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- it doesn't define a parent project, because this will work just fine 
-		as standalone, also it can thus easily be reused -->
-	<groupId>org.eclipse.neoscada.contrib</groupId>
+	<parent>
+		<artifactId>org.eclipse.neoscada.contrib.bnd-parent</artifactId>
+		<groupId>org.eclipse.neoscada.contrib</groupId>
+		<version>0.10.0</version>
+		<relativePath>../org.eclipse.neoscada.contrib.bnd-parent</relativePath>
+	</parent>
 	<artifactId>org.eclipse.neoscada.contrib.runtime</artifactId>
-	<version>0.10.0</version>
-	<packaging>pom</packaging>
 
 	<dependencies>
 		<dependency>
