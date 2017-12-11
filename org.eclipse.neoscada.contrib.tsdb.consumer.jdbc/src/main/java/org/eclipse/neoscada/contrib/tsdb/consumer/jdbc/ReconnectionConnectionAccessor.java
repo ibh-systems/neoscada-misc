@@ -67,11 +67,12 @@ public class ReconnectionConnectionAccessor implements ConnectionAccessor, Runna
                 logger.trace ( "checkConnection () - connectionAccessor successfully created" );
             }
             logger.trace ( "checkConnection () - check validity" );
-            if ( !this.connectionAccessor.getConnection ().isValid ( 1 ) )
+            if ( !this.connectionAccessor.getConnection ().isValid ( 10 ) )
             {
                 logger.trace ( "checkConnection () - validity check failed!" );
                 throw new SQLTransientConnectionException ( "connection not available" );
             }
+            logger.trace ( "checkConnection () - validity check ok" );
         }
         catch ( Exception e )
         {

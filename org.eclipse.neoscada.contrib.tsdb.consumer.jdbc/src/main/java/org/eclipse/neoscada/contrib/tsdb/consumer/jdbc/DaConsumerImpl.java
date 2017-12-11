@@ -11,6 +11,7 @@ import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiFunction;
 
 import javax.script.Invocable;
@@ -30,6 +31,7 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.jdbc.DataSourceFactory;
+import org.osgi.util.pushstream.PushStream;
 import org.osgi.util.pushstream.PushStreamProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,9 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ *
+ */
 @Component ( configurationPid = "$", service = DaConsumer.class, immediate = true )
 public class DaConsumerImpl implements DaConsumer
 {
@@ -70,7 +75,7 @@ public class DaConsumerImpl implements DaConsumer
         final Configuration configuration = gson.fromJson ( new FileReader ( configFile ), Configuration.class );
         logger.debug ( "read configuration with properties: {}", configuration );
 
-        ScriptEngine engine = //new ScriptEngineManager ().getEngineByName ( "nashorn" );
+        ScriptEngine engine = // new ScriptEngineManager ().getEngineByName ( "nashorn" );
                 new ScriptEngineManager ().getEngineByMimeType ( "text/javascript" );
         if ( configuration.getJavaScriptFile () != null )
         {
@@ -113,7 +118,8 @@ public class DaConsumerImpl implements DaConsumer
         }
         if ( configuration.getDatabaseDriver () != null )
         {
-            // databaseProperties.put ( DataSourceFactory.OSGI_JDBC_DRIVER_CLASS, configuration.getDatabaseDriver () );
+            // databaseProperties.put ( DataSourceFactory.OSGI_JDBC_DRIVER_CLASS,
+            // configuration.getDatabaseDriver () );
 
         }
 
@@ -130,11 +136,27 @@ public class DaConsumerImpl implements DaConsumer
 
     private void setupPushStream ( final Configuration configuration )
     {
-        pushStreamProvider.createStream ( this.producer.getPushEventSource ().get () ) //
-                .window ( () -> Duration.ofSeconds ( configuration.getFlushInterval () ), //
-                        () -> configuration.getBatchSize (), //
-                        (BiFunction<Long, Collection<ValueChangeEvent>, Collection<ValueChangeEvent>>) ( nanoSeconds, valueChangeEvents ) -> valueChangeEvents ) //
+        logger.debug ( "setupPushStream ()" );
+        final PushStream<ValueChangeEvent> pushStream = pushStreamProvider.createStream ( this.producer.getPushEventSource ().get () );
+        pushStream.onError ( t -> recreatePushStream ( pushStream, t, configuration ) );
+        pushStream.window ( () -> Duration.ofSeconds ( configuration.getFlushInterval () ), //
+                () -> configuration.getBatchSize (), //
+                (BiFunction<Long, Collection<ValueChangeEvent>, Collection<ValueChangeEvent>>) ( nanoSeconds, valueChangeEvents ) -> valueChangeEvents ) //
                 .forEach ( t -> storeToDatabase ( configuration, t ) );
+    }
+
+    private void recreatePushStream ( PushStream<ValueChangeEvent> pushStream, Throwable t, Configuration configuration )
+    {
+        logger.error ( "recreatePushStream () - push stream failed", t );
+        pushStream.close ();
+        logger.trace ( "recreatePushStream () - after pushstream was closed" );
+        this.scheduler.schedule ( new Runnable () {
+            @Override
+            public void run ()
+            {
+                setupPushStream ( configuration );
+            }
+        }, 30, TimeUnit.SECONDS );
     }
 
     protected void storeToDatabase ( final Configuration configuration, final Collection<ValueChangeEvent> valueChangeEvents )
@@ -142,7 +164,8 @@ public class DaConsumerImpl implements DaConsumer
         logger.trace ( "storeToDatabase (), {} events", valueChangeEvents.size () );
         if ( valueChangeEvents.size () == 0 )
         {
-            // we don't try to do heavy database stuff if we don't have to store any events at all
+            // we don't try to do heavy database stuff if we don't have to store any events
+            // at all
             return;
         }
         try
@@ -194,11 +217,11 @@ public class DaConsumerImpl implements DaConsumer
             case BOOLEAN:
                 if ( configuration.isStoreBooleanAsInteger () )
                 {
-                    parameters.add ( vce.getValue ().getValue ().asBoolean () );
+                    parameters.add ( vce.getValue ().getValue ().asInteger ( 0 ) );
                 }
                 else
                 {
-                    parameters.add ( vce.getValue ().getValue ().asInteger ( 0 ) );
+                    parameters.add ( vce.getValue ().getValue ().asBoolean () );
                 }
                 break;
             case INT32:

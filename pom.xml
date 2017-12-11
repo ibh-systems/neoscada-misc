@@ -5,7 +5,7 @@
 
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
-	<version>0.10.0</version>
+	<version>0.10.1</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -17,6 +17,7 @@
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.server.base</module>
 		<module>org.eclipse.neoscada.contrib.bnd-parent</module>
+		<module>pgtest</module>
 	</modules>
 
 	<properties>
@@ -319,6 +320,27 @@
 					<id>neoscada-contrib</id>
 					<name>NeoSCADA Contrib Maven Repository</name>
 					<url>http://thedrone.packagedrone.org/maven/neoscada-contrib-dev</url>
+				</repository>
+			</distributionManagement>
+		</profile>
+
+		<profile>
+			<id>local</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+
+			<properties>
+				<openscada.releaseType>integration</openscada.releaseType>
+				<repo.upload>true</repo.upload>
+			</properties>
+
+			<distributionManagement>
+				<downloadUrl>file:///tmp/local-maven-repo</downloadUrl>
+				<repository>
+					<id>neoscada-contrib</id>
+					<name>NeoSCADA Contrib Maven Repository</name>
+					<url>file:///tmp/local-maven-repo</url>
 				</repository>
 			</distributionManagement>
 		</profile>
