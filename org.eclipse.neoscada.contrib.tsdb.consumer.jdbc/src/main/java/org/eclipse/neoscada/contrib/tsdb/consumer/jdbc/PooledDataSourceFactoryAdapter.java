@@ -22,6 +22,8 @@ public class PooledDataSourceFactoryAdapter implements DataSourceFactory
 
     private final DataSourceFactory dataSourceFactory;
 
+    private DataSource cachedDataSource;
+
     public PooledDataSourceFactoryAdapter ( PooledDataSourceFactory pooledDataSourceFactory, DataSourceFactory dataSourceFactory )
     {
         this.pooledDataSourceFactory = pooledDataSourceFactory;
@@ -31,7 +33,19 @@ public class PooledDataSourceFactoryAdapter implements DataSourceFactory
     @Override
     public DataSource createDataSource ( Properties props ) throws SQLException
     {
-        return pooledDataSourceFactory.create ( dataSourceFactory, props );
+        if ( cachedDataSource != null )
+        {
+            return cachedDataSource;
+        }
+        try
+        {
+            cachedDataSource = pooledDataSourceFactory.create ( dataSourceFactory, props );
+            return cachedDataSource;
+        }
+        catch ( Exception e )
+        {
+            throw e;
+        }
     }
 
     @Override

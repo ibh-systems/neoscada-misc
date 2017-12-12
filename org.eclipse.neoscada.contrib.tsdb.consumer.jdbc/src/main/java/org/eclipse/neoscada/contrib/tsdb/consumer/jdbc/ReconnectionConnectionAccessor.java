@@ -4,13 +4,12 @@ import java.sql.SQLTransientConnectionException;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import org.eclipse.scada.utils.osgi.jdbc.ConnectionAccessor;
 import org.eclipse.scada.utils.osgi.jdbc.DataSourceConnectionAccessor;
 import org.eclipse.scada.utils.osgi.jdbc.task.ConnectionTask;
-import org.ops4j.pax.jdbc.pool.common.PooledDataSourceFactory;
-import org.osgi.service.jdbc.DataSourceFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,18 +19,17 @@ public class ReconnectionConnectionAccessor implements ConnectionAccessor, Runna
 
     private DataSourceConnectionAccessor connectionAccessor;
 
-    private final PooledDataSourceFactory pooledDataSourceFactory;
-
-    private final DataSourceFactory dataSourceFactory;
+    private PooledDataSourceFactoryAdapter adaptedDataSource;
 
     private final Properties databaseProperties;
 
-    public ReconnectionConnectionAccessor ( final ScheduledExecutorService scheduler, final PooledDataSourceFactory pooledDataSourceFactory, final DataSourceFactory dataSourceFactory, final Properties databaseProperties, final long checkInterval )
+    private ScheduledFuture<?> checkFuture;
+
+    public ReconnectionConnectionAccessor ( final ScheduledExecutorService scheduler, final PooledDataSourceFactoryAdapter adaptedDataSource, final Properties databaseProperties, final long checkInterval )
     {
-        this.pooledDataSourceFactory = pooledDataSourceFactory;
-        this.dataSourceFactory = dataSourceFactory;
+        this.adaptedDataSource = adaptedDataSource;
         this.databaseProperties = databaseProperties;
-        scheduler.scheduleWithFixedDelay ( this, 0, checkInterval, TimeUnit.SECONDS );
+        checkFuture = scheduler.scheduleWithFixedDelay ( this, 0, checkInterval, TimeUnit.SECONDS );
     }
 
     @Override
@@ -45,8 +43,9 @@ public class ReconnectionConnectionAccessor implements ConnectionAccessor, Runna
     @Override
     public void dispose ()
     {
-        Optional.ofNullable ( this.connectionAccessor ) //
-                .ifPresent ( c -> c.dispose () );
+        cleanUp ();
+        Optional.ofNullable ( this.checkFuture ) //
+                .ifPresent ( c -> c.cancel ( true ) );
     }
 
     @Override
@@ -63,21 +62,21 @@ public class ReconnectionConnectionAccessor implements ConnectionAccessor, Runna
             if ( this.connectionAccessor == null )
             {
                 logger.trace ( "checkConnection () - connectionAccessor is null" );
-                this.connectionAccessor = new DataSourceConnectionAccessor ( new PooledDataSourceFactoryAdapter ( this.pooledDataSourceFactory, this.dataSourceFactory ), this.databaseProperties );
+                this.connectionAccessor = new DataSourceConnectionAccessor ( this.adaptedDataSource, this.databaseProperties );
                 logger.trace ( "checkConnection () - connectionAccessor successfully created" );
             }
-            logger.trace ( "checkConnection () - check validity" );
-            if ( !this.connectionAccessor.getConnection ().isValid ( 10 ) )
-            {
-                logger.trace ( "checkConnection () - validity check failed!" );
-                throw new SQLTransientConnectionException ( "connection not available" );
-            }
-            logger.trace ( "checkConnection () - validity check ok" );
         }
         catch ( Exception e )
         {
             logger.trace ( "checkConnection () - failed", e );
             this.connectionAccessor = null;
         }
+    }
+
+    public void cleanUp ()
+    {
+        Optional.ofNullable ( this.connectionAccessor ) //
+                .ifPresent ( c -> c.dispose () );
+        this.connectionAccessor = null;
     }
 }

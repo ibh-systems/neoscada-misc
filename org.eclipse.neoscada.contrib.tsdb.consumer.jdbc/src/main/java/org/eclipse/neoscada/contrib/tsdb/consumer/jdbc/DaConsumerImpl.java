@@ -2,6 +2,7 @@ package org.eclipse.neoscada.contrib.tsdb.consumer.jdbc;
 
 import java.io.File;
 import java.io.FileReader;
+import java.sql.SQLTransientException;
 import java.sql.Timestamp;
 import java.time.Duration;
 import java.util.ArrayList;
@@ -58,9 +59,11 @@ public class DaConsumerImpl implements DaConsumer
 
     private DataSourceFactory dataSourceFactory;
 
-    private ConnectionAccessor dsca;
+    private ReconnectionConnectionAccessor dsca;
 
     private PooledDataSourceFactory pooledDataSourceFactory;
+
+    private PooledDataSourceFactoryAdapter adaptedDataSource;
 
     private Invocable invocable;
 
@@ -120,18 +123,9 @@ public class DaConsumerImpl implements DaConsumer
         {
             // databaseProperties.put ( DataSourceFactory.OSGI_JDBC_DRIVER_CLASS,
             // configuration.getDatabaseDriver () );
-
         }
-
-        try
-        {
-            dsca = new ReconnectionConnectionAccessor ( this.scheduler, this.pooledDataSourceFactory, this.dataSourceFactory, databaseProperties, 30 );
-        }
-        catch ( Exception e )
-        {
-            logger.error ( "could not create DataSourceConnectionAccessor", e );
-            throw e;
-        }
+        this.adaptedDataSource = new PooledDataSourceFactoryAdapter ( pooledDataSourceFactory, dataSourceFactory );
+        dsca = new ReconnectionConnectionAccessor ( this.scheduler, this.adaptedDataSource, databaseProperties, 30 );
     }
 
     private void setupPushStream ( final Configuration configuration )
@@ -194,6 +188,11 @@ public class DaConsumerImpl implements DaConsumer
         {
             logger.trace ( "could not store events: {}", valueChangeEvents );
             logger.warn ( "insert into database failed", e );
+            if ( e instanceof SQLTransientException )
+            {
+                logger.warn ( "clean up old connection" );
+                dsca.cleanUp ();
+            }
         }
     }
 
