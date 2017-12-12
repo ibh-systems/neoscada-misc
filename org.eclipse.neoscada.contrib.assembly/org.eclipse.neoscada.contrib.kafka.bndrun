@@ -62,6 +62,6 @@
 	org.osgi.util.promise;version='[1.1.0,1.1.1)',\
 	org.osgi.util.pushstream;version='[1.0.0,1.0.1)',\
 	slf4j.api;version='[1.7.25,1.7.26)',\
-	org.eclipse.neoscada.contrib.tsdb.api;version='[0.10.1,0.10.2)',\
-	org.eclipse.neoscada.contrib.tsdb.consumer.kafka;version='[0.10.1,0.10.2)',\
-	org.eclipse.neoscada.contrib.tsdb.producer;version='[0.10.1,0.10.2)'
+	org.eclipse.neoscada.contrib.tsdb.api;version='[0.10.2,0.10.3)',\
+	org.eclipse.neoscada.contrib.tsdb.consumer.kafka;version='[0.10.2,0.10.3)',\
+	org.eclipse.neoscada.contrib.tsdb.producer;version='[0.10.2,0.10.3)'
