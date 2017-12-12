@@ -17,7 +17,6 @@
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.server.base</module>
 		<module>org.eclipse.neoscada.contrib.bnd-parent</module>
-		<module>pgtest</module>
 	</modules>
 
 	<properties>
