@@ -3,11 +3,13 @@ package org.eclipse.neoscada.contrib.tsdb.producer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.SortedSet;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -17,11 +19,6 @@ import org.eclipse.neoscada.contrib.tsdb.api.ValueChangeEvent;
 import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
-import org.osgi.util.pushstream.PushEventSource;
-import org.osgi.util.pushstream.PushStreamProvider;
-import org.osgi.util.pushstream.PushbackPolicyOption;
-import org.osgi.util.pushstream.QueuePolicyOption;
-import org.osgi.util.pushstream.SimplePushEventSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,9 +43,7 @@ public class DaProducerImpl implements DaProducer
 
     private ScheduledExecutorService scheduler;
 
-    final PushStreamProvider pushStreamProvider = new PushStreamProvider ();
-
-    private SimplePushEventSource<ValueChangeEvent> pushEventSource;
+    private Deque<ValueChangeEvent> queue;
 
     @Activate
     void activate () throws JsonIOException, JsonSyntaxException, FileNotFoundException
@@ -62,13 +57,8 @@ public class DaProducerImpl implements DaProducer
         synchronized ( this )
         {
             this.scheduler = Executors.newSingleThreadScheduledExecutor ( new ThreadFactoryBuilder ().setNameFormat ( "DaProducer-%d" ).build () );
-            pushEventSource = pushStreamProvider.buildSimpleEventSource ( ValueChangeEvent.class ) //
-                    .withParallelism ( 1 ) //
-                    .withPushbackPolicy ( PushbackPolicyOption.LINEAR, TimeUnit.SECONDS.toNanos ( 30 ) ) //
-                    .withQueuePolicy ( QueuePolicyOption.DISCARD_OLDEST ) //
-                    .withBuffer ( new LinkedBlockingQueue<> ( configuration.getQueueSize () ) )//
-                    .build ();
-            configuration.getConnections ().stream ().forEach ( connectionConfig -> configureConnection ( connectionConfig, pushEventSource ) );
+            queue = new ArrayDeque<> ( configuration.getQueueSize () );
+            configuration.getConnections ().stream ().forEach ( connectionConfig -> configureConnection ( connectionConfig, queue ) );
             if ( configuration.getHeartBeat () > 0 )
             {
                 this.scheduler.scheduleAtFixedRate ( new Runnable () {
@@ -83,13 +73,13 @@ public class DaProducerImpl implements DaProducer
         }
     }
 
-    private void configureConnection ( ConnectionConfiguration connectionConfiguration, SimplePushEventSource<ValueChangeEvent> pushEventSource )
+    private void configureConnection ( ConnectionConfiguration connectionConfiguration, Deque<ValueChangeEvent> queue )
     {
         logger.debug ( "configure new connection" );
 
         try
         {
-            this.configuredConnections.add ( new ConfiguredConnection ( connectionConfiguration, pushEventSource ) );
+            this.configuredConnections.add ( new ConfiguredConnection ( connectionConfiguration, queue ) );
         }
         catch ( Exception e )
         {
@@ -106,7 +96,7 @@ public class DaProducerImpl implements DaProducer
             this.configuredConnections.parallelStream ().forEach ( configuration -> configuration.dispose () );
             Optional.ofNullable ( this.scheduler ).ifPresent ( scheduler -> scheduler.shutdown () );
             this.configuredConnections.clear ();
-            Optional.ofNullable ( this.pushEventSource ).ifPresent ( SimplePushEventSource::close );
+            Optional.ofNullable ( this.queue ).ifPresent ( Queue::clear );
         }
         logger.trace ( "deactivate finished" );
     }
@@ -122,8 +112,8 @@ public class DaProducerImpl implements DaProducer
     }
 
     @Override
-    public Optional<PushEventSource<ValueChangeEvent>> getPushEventSource ()
+    public Optional<Deque<ValueChangeEvent>> getQueue ()
     {
-        return Optional.ofNullable ( this.pushEventSource );
+        return Optional.ofNullable ( this.queue );
     }
 }

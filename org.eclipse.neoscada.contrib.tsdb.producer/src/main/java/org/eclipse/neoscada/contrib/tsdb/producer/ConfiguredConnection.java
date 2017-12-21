@@ -2,6 +2,7 @@ package org.eclipse.neoscada.contrib.tsdb.producer;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.Deque;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Optional;
@@ -35,7 +36,6 @@ import org.eclipse.scada.da.core.Location;
 import org.eclipse.scada.da.core.browser.DataItemEntry;
 import org.eclipse.scada.da.core.browser.Entry;
 import org.eclipse.scada.da.core.browser.FolderEntry;
-import org.osgi.util.pushstream.SimplePushEventSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,12 +62,12 @@ public class ConfiguredConnection implements Comparable<ConfiguredConnection>
 
     private ConcurrentMap<String, ItemEntry> subscribedItems = new ConcurrentSkipListMap<> ();
 
-    private SimplePushEventSource<ValueChangeEvent> pushEventSource;
+    private Deque<ValueChangeEvent> queue;
 
-    public ConfiguredConnection ( ConnectionConfiguration configuration, SimplePushEventSource<ValueChangeEvent> pushEventSource ) throws Exception
+    public ConfiguredConnection ( ConnectionConfiguration configuration, Deque<ValueChangeEvent> queue ) throws Exception
     {
         this.configuration = configuration;
-        this.pushEventSource = pushEventSource;
+        this.queue = queue;
         this.executorService = Executors.newSingleThreadScheduledExecutor ( new ThreadFactoryBuilder ().setNameFormat ( ConfiguredConnection.class.getName () + "-%d" ).build () );
 
         try
@@ -285,13 +285,29 @@ public class ConfiguredConnection implements Comparable<ConfiguredConnection>
 
     protected void handleValueUpdate ( String itemId, DataItemValue value, boolean heartbeat )
     {
-        logger.trace ( "handleValueUpdate () - {} = {} (hb: {}) ", new Object[] { itemId, value, heartbeat } );
+        logger.trace ( "handleValueUpdate () - {} = {} (hb: {})", new Object[] { itemId, value, heartbeat } );
         if ( !includeItem ( itemId ) )
         {
+            logger.trace ( "{} is not supposed to be included!", itemId );
             return;
         }
-        final String modifiedItemId = toFinalName ( itemId );
-        pushEventSource.publish ( new ValueChangeEvent ( modifiedItemId, value, heartbeat ) );
+        try
+        {
+            final String modifiedItemId = toFinalName ( itemId );
+            final ValueChangeEvent vce = new ValueChangeEvent ( modifiedItemId, value, heartbeat );
+            try
+            {
+                queue.push ( vce );
+            }
+            catch ( IllegalStateException e )
+            {
+                logger.warn ( "could not push event to queue (queue full): {}", vce );
+            }
+        }
+        catch ( Exception e )
+        {
+            logger.error ( "handleValueUpdate", e );
+        }
     }
 
     protected void storeHeartbeats ()

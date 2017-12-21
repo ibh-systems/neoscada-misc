@@ -4,16 +4,16 @@ import java.io.File;
 import java.io.FileReader;
 import java.sql.SQLTransientException;
 import java.sql.Timestamp;
-import java.time.Duration;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.List;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.BiFunction;
 
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
@@ -22,7 +22,6 @@ import javax.script.ScriptEngineManager;
 import org.eclipse.neoscada.contrib.tsdb.api.DaConsumer;
 import org.eclipse.neoscada.contrib.tsdb.api.DaProducer;
 import org.eclipse.neoscada.contrib.tsdb.api.ValueChangeEvent;
-import org.eclipse.scada.utils.osgi.jdbc.ConnectionAccessor;
 import org.eclipse.scada.utils.osgi.jdbc.task.CommonConnectionTask;
 import org.eclipse.scada.utils.osgi.jdbc.task.ConnectionContext;
 import org.ops4j.pax.jdbc.pool.common.PooledDataSourceFactory;
@@ -32,8 +31,6 @@ import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.jdbc.DataSourceFactory;
-import org.osgi.util.pushstream.PushStream;
-import org.osgi.util.pushstream.PushStreamProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,8 +52,6 @@ public class DaConsumerImpl implements DaConsumer
 
     private DaProducer producer;
 
-    private final PushStreamProvider pushStreamProvider = new PushStreamProvider ();
-
     private DataSourceFactory dataSourceFactory;
 
     private ReconnectionConnectionAccessor dsca;
@@ -66,6 +61,8 @@ public class DaConsumerImpl implements DaConsumer
     private PooledDataSourceFactoryAdapter adaptedDataSource;
 
     private Invocable invocable;
+
+    private long lastValue = 0;
 
     @Activate
     void activate () throws Exception
@@ -92,7 +89,7 @@ public class DaConsumerImpl implements DaConsumer
 
         this.scheduler = Executors.newSingleThreadScheduledExecutor ( new ThreadFactoryBuilder ().setNameFormat ( "DaConsumerImpl-%d" ).build () );
         setupDatabase ( configuration );
-        setupPushStream ( configuration );
+        setupQueue ( configuration );
     }
 
     private void setupDatabase ( Configuration configuration ) throws Exception
@@ -128,29 +125,31 @@ public class DaConsumerImpl implements DaConsumer
         dsca = new ReconnectionConnectionAccessor ( this.scheduler, this.adaptedDataSource, databaseProperties, 30 );
     }
 
-    private void setupPushStream ( final Configuration configuration )
+    private void setupQueue ( final Configuration configuration )
     {
-        logger.debug ( "setupPushStream ()" );
-        final PushStream<ValueChangeEvent> pushStream = pushStreamProvider.createStream ( this.producer.getPushEventSource ().get () );
-        pushStream.onError ( t -> recreatePushStream ( pushStream, t, configuration ) );
-        pushStream.window ( () -> Duration.ofSeconds ( configuration.getFlushInterval () ), //
-                () -> configuration.getBatchSize (), //
-                (BiFunction<Long, Collection<ValueChangeEvent>, Collection<ValueChangeEvent>>) ( nanoSeconds, valueChangeEvents ) -> valueChangeEvents ) //
-                .forEach ( t -> storeToDatabase ( configuration, t ) );
-    }
-
-    private void recreatePushStream ( PushStream<ValueChangeEvent> pushStream, Throwable t, Configuration configuration )
-    {
-        logger.error ( "recreatePushStream () - push stream failed", t );
-        pushStream.close ();
-        logger.trace ( "recreatePushStream () - after pushstream was closed" );
-        this.scheduler.schedule ( new Runnable () {
+        this.scheduler.scheduleAtFixedRate ( new Runnable () {
             @Override
             public void run ()
             {
-                setupPushStream ( configuration );
+                flushQueue ( configuration, producer.getQueue ().orElse ( new ArrayDeque<> ( 0 ) ) );
             }
-        }, 30, TimeUnit.SECONDS );
+        }, configuration.getFlushInterval (), configuration.getFlushInterval (), TimeUnit.SECONDS );
+    }
+
+    protected void flushQueue ( final Configuration configuration, Deque<ValueChangeEvent> queue )
+    {
+        int size = queue.size ();
+        logger.trace ( "queue size = {}", size );
+        List<ValueChangeEvent> elementsToStore = new ArrayList<> ( size );
+        for ( int i = 0; i < size; i++ )
+        {
+            ValueChangeEvent vce = queue.pollLast ();
+            if ( vce != null )
+            {
+                elementsToStore.add ( vce );
+            }
+        }
+        storeToDatabase ( configuration, elementsToStore );
     }
 
     protected void storeToDatabase ( final Configuration configuration, final Collection<ValueChangeEvent> valueChangeEvents )
@@ -164,12 +163,20 @@ public class DaConsumerImpl implements DaConsumer
         }
         try
         {
+            long timeStart = System.currentTimeMillis ();
             dsca.doWithConnection ( new CommonConnectionTask<Void> () {
                 @Override
                 protected Void performTask ( ConnectionContext connectionContext ) throws Exception
                 {
                     for ( ValueChangeEvent vce : valueChangeEvents )
                     {
+                        Long v = vce.getValue ().getValue ().asLong ( -1l );
+                        if ( lastValue + 1 != v )
+                        {
+                            System.err.println ( "lastValue was " + lastValue );
+                            System.err.println ( "nextValue was " + v );
+                        }
+                        lastValue = v;
                         final String sql = buildSql ( configuration, vce );
                         if ( sql == null )
                         {
@@ -183,6 +190,8 @@ public class DaConsumerImpl implements DaConsumer
                     return null;
                 }
             } );
+            long timeEnd = System.currentTimeMillis ();
+            logger.trace ( "database operation took {}ms", ( timeEnd - timeStart ) );
         }
         catch ( Exception e )
         {

@@ -5,7 +5,7 @@
 	<parent>
 		<artifactId>org.eclipse.neoscada.contrib</artifactId>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
-		<version>0.10.2</version>
+		<version>0.11.0</version>
 	</parent>
 
 	<artifactId>org.eclipse.neoscada.contrib.bnd-parent</artifactId>
@@ -14,11 +14,12 @@
 	<modules>
 		<module>../org.eclipse.neoscada.contrib.index</module>
 		<module>../org.eclipse.neoscada.contrib.runtime</module>
-		<module>../org.eclipse.neoscada.contrib.assembly</module>
 		<module>../org.eclipse.neoscada.contrib.tsdb.api</module>
 		<module>../org.eclipse.neoscada.contrib.tsdb.producer</module>
 		<module>../org.eclipse.neoscada.contrib.tsdb.consumer.jdbc</module>
 		<module>../org.eclipse.neoscada.contrib.tsdb.consumer.kafka</module>
+		<module>../org.eclipse.neoscada.contrib.plantsimulator</module>
+		<module>../org.eclipse.neoscada.contrib.assembly</module>
 	</modules>
 
 	<build>

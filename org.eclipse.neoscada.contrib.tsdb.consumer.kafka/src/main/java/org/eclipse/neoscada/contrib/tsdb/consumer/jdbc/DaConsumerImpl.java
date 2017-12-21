@@ -2,10 +2,13 @@ package org.eclipse.neoscada.contrib.tsdb.consumer.jdbc;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 import javax.script.Invocable;
@@ -25,7 +28,6 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
-import org.osgi.util.pushstream.PushStreamProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,8 +55,6 @@ public class DaConsumerImpl implements DaConsumer
     private DaProducer producer;
 
     private Producer<String, String> kafkaProducer;
-
-    private final PushStreamProvider pushStreamProvider = new PushStreamProvider ();
 
     private final Properties kafkaProperties = new Properties ();
 
@@ -84,7 +84,7 @@ public class DaConsumerImpl implements DaConsumer
 
         this.scheduler = Executors.newSingleThreadScheduledExecutor ( new ThreadFactoryBuilder ().setNameFormat ( DaConsumerImpl.class.getName () + "-%d" ).build () );
         setupKafka ( configuration );
-        setupPushStream ( configuration );
+        setupQueue ( configuration );
     }
 
     private void setupKafka ( Configuration configuration ) throws Exception
@@ -109,16 +109,42 @@ public class DaConsumerImpl implements DaConsumer
         }
     }
 
-    private void setupPushStream ( final Configuration configuration )
+    private void setupQueue ( final Configuration configuration )
     {
-        pushStreamProvider.createStream ( this.producer.getPushEventSource ().get () )//
-                .forEach ( vce -> storeToKafka ( configuration, vce ) );
+        this.scheduler.scheduleAtFixedRate ( new Runnable () {
+            @Override
+            public void run ()
+            {
+                flushQueue ( configuration, producer.getQueue ().orElse ( new ArrayDeque<> ( 0 ) ) );
+            }
+        }, configuration.getFlushInterval (), configuration.getFlushInterval (), TimeUnit.SECONDS );
+    }
+
+    protected void flushQueue ( final Configuration configuration, Deque<ValueChangeEvent> queue )
+    {
+        int size = queue.size ();
+        for ( int i = 0; i < size; i++ )
+        {
+            ValueChangeEvent vce = queue.pollLast ();
+            if ( vce != null )
+            {
+                storeToKafka ( configuration, vce );
+            }
+        }
     }
 
     protected void storeToKafka ( final Configuration configuration, final ValueChangeEvent valueChangeEvent )
     {
-        final String topic = toTopicName ( valueChangeEvent.getId () );
-        kafkaProducer.send ( new ProducerRecord<String, String> ( topic, gson.toJson ( valueChangeEvent ) ) );
+        try
+        {
+            final String topic = toTopicName ( valueChangeEvent.getId () );
+            kafkaProducer.send ( new ProducerRecord<String, String> ( topic, gson.toJson ( valueChangeEvent ) ) );
+        }
+        catch ( Exception e )
+        {
+            logger.warn ( "storing event to Kafka failed", e );
+            logger.trace ( "Event was: {}", valueChangeEvent );
+        }
     }
 
     private String toTopicName ( String itemId )

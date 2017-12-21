@@ -13,6 +13,8 @@ public class Configuration implements Serializable
 
     private String javaScriptFile;
 
+    private int flushInterval = 1; // in seconds
+
     public String getKafkaUrl ()
     {
         return kafkaUrl;
@@ -43,11 +45,22 @@ public class Configuration implements Serializable
         this.javaScriptFile = javaScriptFile;
     }
 
+    public int getFlushInterval ()
+    {
+        return flushInterval;
+    }
+
+    public void setFlushInterval ( int flushInterval )
+    {
+        this.flushInterval = flushInterval;
+    }
+
     @Override
     public int hashCode ()
     {
         final int prime = 31;
         int result = 1;
+        result = prime * result + flushInterval;
         result = prime * result + ( ( javaScript == null ) ? 0 : javaScript.hashCode () );
         result = prime * result + ( ( javaScriptFile == null ) ? 0 : javaScriptFile.hashCode () );
         result = prime * result + ( ( kafkaUrl == null ) ? 0 : kafkaUrl.hashCode () );
@@ -64,6 +77,8 @@ public class Configuration implements Serializable
         if ( getClass () != obj.getClass () )
             return false;
         Configuration other = (Configuration)obj;
+        if ( flushInterval != other.flushInterval )
+            return false;
         if ( javaScript == null )
         {
             if ( other.javaScript != null )
