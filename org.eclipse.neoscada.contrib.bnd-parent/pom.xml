@@ -18,7 +18,9 @@
 		<module>../org.eclipse.neoscada.contrib.tsdb.producer</module>
 		<module>../org.eclipse.neoscada.contrib.tsdb.consumer.jdbc</module>
 		<module>../org.eclipse.neoscada.contrib.tsdb.consumer.kafka</module>
+		<!-- 
 		<module>../org.eclipse.neoscada.contrib.plantsimulator</module>
+		 -->
 		<module>../org.eclipse.neoscada.contrib.assembly</module>
 	</modules>
 

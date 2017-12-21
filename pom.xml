@@ -14,8 +14,10 @@
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
 		<module>com.ibh.systems.neoscada.generator.lib</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
+		<!-- 
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.server.base</module>
+		 -->
 		<module>org.eclipse.neoscada.contrib.bnd-parent</module>
 	</modules>
 
