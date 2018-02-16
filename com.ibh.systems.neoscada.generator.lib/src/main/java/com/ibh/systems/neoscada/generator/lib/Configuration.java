@@ -155,6 +155,10 @@ public class Configuration
             {
                 object.addProperty ( "protocol.timeZone", "" + src.getTimeZone () );
             }
+            if ( src.getDelayStart () != null )
+            {
+                object.addProperty ( "dataModule.delayStart", "" + src.getDelayStart () );
+            }
             return object;
         }
     }
@@ -412,6 +416,17 @@ public class Configuration
         }
     }
 
+    public static class ProxyDataSourceFactoryElementSerializer implements JsonSerializer<ProxyDataSourceFactoryElement>
+    {
+        @Override
+        public JsonElement serialize ( final ProxyDataSourceFactoryElement src, final Type typeOfSrc, final JsonSerializationContext context )
+        {
+            final JsonObject object = new JsonObject ();
+            object.addProperty ( "sources", "" + String.join ( ", ", src.getValue () ) );
+            return object;
+        }
+    }
+
     public Gson getGson ()
     {
         return new GsonBuilder ().setPrettyPrinting () //
@@ -436,6 +451,7 @@ public class Configuration
                 .registerTypeAdapter ( MemoryTypesFactoryElement.class, new MemoryTypesFactoryElementSerializer () ) //
                 .registerTypeAdapter ( OpcXmlDaConnectionFactoryElement.class, new OpcXmlDaConnectionFactoryElementSerializer () ) //
                 .registerTypeAdapter ( SecOsgiManagerFactoryElement.class, new SecOsgiManagerFactoryElementSerializer () ) //
+                .registerTypeAdapter ( ProxyDataSourceFactoryElement.class, new ProxyDataSourceFactoryElementSerializer () ) //
                 .create ();
     }
 }

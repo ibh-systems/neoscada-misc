@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<artifactId>org.eclipse.neoscada.contrib</artifactId>
-		<version>0.10.0</version>
+		<version>0.12.0</version>
 	</parent>
 
 	<artifactId>org.eclipse.neoscada.contrib.kafka</artifactId>
@@ -117,7 +117,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.1.7</version>
         </dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
@@ -127,17 +126,14 @@
         <dependency>
             <groupId>org.eclipse.neoscada.core</groupId>
             <artifactId>org.eclipse.scada.da.client.ngp</artifactId>
-            <version>0.2.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
-            <version>2.8.0</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>21.0</version>
         </dependency>
 	</dependencies>
 </project>

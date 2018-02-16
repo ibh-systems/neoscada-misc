@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<artifactId>org.eclipse.neoscada.contrib</artifactId>
-		<version>0.11.0</version>
+		<version>0.12.0</version>
 		<relativePath>../</relativePath>
 	</parent>
 
@@ -26,10 +26,10 @@
 			<artifactId>logback-classic</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-        <dependency>
-            <groupId>org.eclipse.neoscada.core</groupId>
-            <artifactId>org.eclipse.scada.da.client.ngp</artifactId>
-        </dependency>
+		<dependency>
+			<groupId>org.eclipse.neoscada.core</groupId>
+			<artifactId>org.eclipse.scada.da.client.ngp</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.eclipse.neoscada.protocols</groupId>
 			<artifactId>org.eclipse.scada.protocol.modbus</artifactId>
@@ -43,6 +43,11 @@
 			<groupId>commons-daemon</groupId>
 			<artifactId>commons-daemon</artifactId>
 			<version>1.0.15</version>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-buffer</artifactId>
+			<version>4.1.21.Final</version>
 		</dependency>
 	</dependencies>
 

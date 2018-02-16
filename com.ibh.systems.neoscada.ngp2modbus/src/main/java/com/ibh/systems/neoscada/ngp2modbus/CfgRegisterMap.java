@@ -5,6 +5,8 @@ public class CfgRegisterMap implements Comparable<CfgRegisterMap>
     private int address;
 
     private String item;
+    
+    private ModbusType type = ModbusType.UINT16;
 
     public int getAddress ()
     {
@@ -24,6 +26,16 @@ public class CfgRegisterMap implements Comparable<CfgRegisterMap>
     public void setItem ( String item )
     {
         this.item = item;
+    }
+    
+    public void setType ( ModbusType type )
+    {
+        this.type = type;
+    }
+    
+    public ModbusType getType ()
+    {
+        return type;
     }
 
     @Override

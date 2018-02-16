@@ -45,6 +45,8 @@ public class Factories
 
     public static final SecOsgiManagerFactory DEFAULT_SEC_OSGI_MANAGER_FACTORY = new SecOsgiManagerFactory ();
 
+    public static final ProxyItemFactory DEFAULT_PROXY_ITEM_FACTORY = new ProxyItemFactory ();
+
     public static class DaConnectionFactory extends AbstractFactory
     {
 
@@ -289,6 +291,18 @@ public class Factories
     {
 
         public static final String FACTORY_NAME = "org.eclipse.scada.sec.osgi.manager";
+
+        @Override
+        public String getId ()
+        {
+            return FACTORY_NAME;
+        }
+    }
+
+    public static class ProxyItemFactory extends AbstractFactory
+    {
+
+        public static final String FACTORY_NAME = "da.datasource.proxy";
 
         @Override
         public String getId ()
