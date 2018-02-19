@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<artifactId>org.eclipse.neoscada.contrib</artifactId>
-		<version>0.12.0</version>
+		<version>0.12.1</version>
 	</parent>
 
 	<artifactId>org.eclipse.neoscada.contrib.server.base</artifactId>

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<artifactId>org.eclipse.neoscada.contrib</artifactId>
-		<version>0.12.0</version>
+		<version>0.12.1</version>
 		<relativePath>../</relativePath>
 	</parent>
 
@@ -31,23 +32,27 @@
 			<artifactId>org.eclipse.scada.da.client.ngp</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-buffer</artifactId>
+			<version>${netty.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.jzlib</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.eclipse.neoscada.protocols</groupId>
 			<artifactId>org.eclipse.scada.protocol.modbus</artifactId>
 			<version>0.3.0</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>commons-daemon</groupId>
 			<artifactId>commons-daemon</artifactId>
 			<version>1.0.15</version>
-		</dependency>
-		<dependency>
-			<groupId>io.netty</groupId>
-			<artifactId>netty-buffer</artifactId>
-			<version>4.1.21.Final</version>
 		</dependency>
 	</dependencies>
 
