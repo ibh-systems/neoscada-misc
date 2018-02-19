@@ -75,7 +75,7 @@ public class ItemAndConnectionManager
 
     public synchronized void start ()
     {
-        logger.debug ( "staring connections ..." );
+        logger.debug ( "starting connections ..." );
         for ( Entry<String, ItemManagerImpl> entry : connections.entrySet () )
         {
             AutoReconnectController controller = new AutoReconnectController ( entry.getValue ().getConnection () );

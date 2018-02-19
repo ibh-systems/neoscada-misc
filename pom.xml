@@ -5,7 +5,7 @@
 
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
-	<version>0.12.1</version>
+	<version>0.12.2</version>
 	<packaging>pom</packaging>
 
 	<modules>

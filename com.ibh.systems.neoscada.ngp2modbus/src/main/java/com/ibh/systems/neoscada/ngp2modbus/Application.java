@@ -38,7 +38,7 @@ public class Application
             System.exit ( 2 );
         }
 
-        System.out.println ( "Staring Modbus converter with config file " + configFile );
+        System.out.println ( "Starting Modbus converter with config file " + configFile );
 
         // Instantiate and start hive & driver
         System.setProperty ( "java.net.preferIPv4Stack", "true" );

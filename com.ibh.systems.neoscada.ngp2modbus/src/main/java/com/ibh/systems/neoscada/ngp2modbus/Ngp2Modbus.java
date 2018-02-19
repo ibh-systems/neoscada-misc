@@ -143,11 +143,12 @@ public class Ngp2Modbus
                                         default:
                                             break;
                                     }
-                                    result[i] = buf.getByte ( 0 );
+                                    result[i] = buf.readUnsignedShort();
                                     if ( ( modbusType.getSize () == 32 ) && ( i + 1 < result.length ) )
                                     {
-                                        result[i + 1] = buf.getByte ( 1 );
+                                        result[i + 1] = buf.readUnsignedShort();
                                     }
+                                    buf.release ();
                                 }
                                 else
                                 {
@@ -290,6 +291,7 @@ public class Ngp2Modbus
                                             throw new ModbusRequestException ( 4, result.getError () );
                                         }
                                         logger.debug ( "handleAnalogWrite write on item {} completed", dataItem );
+                                        buf.release ();
                                     }
                                     else
                                     {

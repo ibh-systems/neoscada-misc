@@ -51,7 +51,7 @@ public class JsvcStarter implements Daemon
             throw new DaemonInitException ( "config validation failed", e );
         }
 
-        System.out.println ( "Staring Modbus converter with config file " + configFile );
+        System.out.println ( "Starting Modbus converter with config file " + configFile );
         m = new Ngp2Modbus ( configFile );
     }
 
