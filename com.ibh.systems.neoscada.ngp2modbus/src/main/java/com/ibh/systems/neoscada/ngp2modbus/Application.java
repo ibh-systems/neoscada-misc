@@ -43,6 +43,15 @@ public class Application
         // Instantiate and start hive & driver
         System.setProperty ( "java.net.preferIPv4Stack", "true" );
         final Ngp2Modbus ngp2modbus = new Ngp2Modbus ( configFile );
+
+        // allow graceful exit
+        Runtime.getRuntime ().addShutdownHook ( new Thread () {
+            public void run ()
+            {
+                ngp2modbus.stop ();
+            }
+        } );
+
         ngp2modbus.start ();
     }
 }
