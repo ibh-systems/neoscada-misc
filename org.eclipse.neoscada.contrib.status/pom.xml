@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
 		<artifactId>org.eclipse.neoscada.contrib</artifactId>
-		<version>0.12.3</version>
+		<version>0.25.0</version>
 		<relativePath>../</relativePath>
 	</parent>
 
@@ -25,10 +27,12 @@
 						<configuration>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
 							<transformers>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.DontIncludeResourceTransformer">
 									<resource>.gitignore</resource>
 								</transformer>
-								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+								<transformer
+									implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
 									<mainClass>org.eclipse.neoscada.contrib.status.Application</mainClass>
 								</transformer>
 							</transformers>
@@ -128,20 +132,20 @@
 			<artifactId>undertow-core</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.eclipse.neoscada.core</groupId>
+			<groupId>org.eclipse.neoscada</groupId>
 			<artifactId>org.eclipse.scada.da.client.ngp</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.openscada.atlantis</groupId>
-			<artifactId>org.openscada.protocol.iec60870</artifactId>
+			<groupId>org.eclipse.neoscada</groupId>
+			<artifactId>org.eclipse.neoscada.protocol.iec60870</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.openscada.atlantis</groupId>
-			<artifactId>org.openscada.protocol.iec60870.client</artifactId>
+			<groupId>org.eclipse.neoscada</groupId>
+			<artifactId>org.eclipse.neoscada.protocol.iec60870.client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.openscada.atlantis</groupId>
-			<artifactId>org.openscada.protocol.iec60870.client.data</artifactId>
+			<groupId>org.eclipse.neoscada</groupId>
+			<artifactId>org.eclipse.neoscada.protocol.iec60870.client.data</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>io.netty</groupId>

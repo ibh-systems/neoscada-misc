@@ -16,8 +16,8 @@ public class JvmMemoryUsage
 {
     private MemoryUsage heapMemoryUsage = new MemoryUsage ( 0, 0, 0, 0 );
 
-    private MemoryUsage nonHeapMemoryUsage = new MemoryUsage ( 0, 0, 0, 0 );;
-
+    private MemoryUsage nonHeapMemoryUsage = new MemoryUsage ( 0, 0, 0, 0 );
+    
     public MemoryUsage getHeapMemoryUsage ()
     {
         return heapMemoryUsage;

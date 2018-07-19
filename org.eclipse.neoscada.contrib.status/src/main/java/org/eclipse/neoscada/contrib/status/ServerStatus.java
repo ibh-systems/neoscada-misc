@@ -63,6 +63,7 @@ public class ServerStatus
             JsonObject o = new JsonObject ();
             o.add ( "name", new JsonPrimitive ( service.getName () ) );
             o.add ( "memory", gson.toJsonTree ( service.getMemory () ) );
+            o.add ( "threads", gson.toJsonTree ( service.getThreadInformation () ) );
             o.add ( "queuesize", new JsonPrimitive ( service.getSumQueueSize () ) );
             o.add ( "loadAverage", gson.toJsonTree ( service.getLoadAverage () ) );
             if ( service.getDaUrl () != null && !service.getDaUrl ().isEmpty () )
@@ -121,6 +122,10 @@ public class ServerStatus
         for ( ScadaAliveCheck service : neoscada )
         {
             sb.append ( "  " + service.getName () + " " + service.toStatus () + "\n" );
+            if ( service.isDeadlock () )
+            {
+                sb.append ( "    !!! DEADLOCK !!!\n" );
+            }
             if ( service.isMemoryCriticalThreshold () )
             {
                 sb.append ( "    nearly out of memory! Is " + String.format ( "%5.2f", service.getFreeMemoryPercent () ) + "% free\n" );
