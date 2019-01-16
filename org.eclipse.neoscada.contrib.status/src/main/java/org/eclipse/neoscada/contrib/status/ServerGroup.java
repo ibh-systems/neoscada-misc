@@ -11,6 +11,8 @@
 package org.eclipse.neoscada.contrib.status;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -82,5 +84,60 @@ public class ServerGroup
             return "WARNING\n\n" + sb.toString ();
         }
         return "OK\n\n" + sb.toString ();
+    }
+
+    public void createGraphiteData ( Collection<GraphiteData> toSend, Date t, String graphitePrefix, String environment )
+    {
+        String prefix = ( graphitePrefix == null || graphitePrefix.trim ().isEmpty () ) ? "" : graphitePrefix + ".";
+        for ( Entry<String, ServerStatus> entry : serverConfigs.entrySet () )
+        {
+            for ( ScadaAliveCheck c : entry.getValue ().getNeoscada () )
+            {
+                String tags = String.format ( ";env=%s;server=%s;service=%s", environment, entry.getKey (), c.getName () );
+                toSend.add ( new GraphiteData ( prefix + "neoscada.disconnected" + tags, toValue ( c.isDisconnected () ), t ) );
+                toSend.add ( new GraphiteData ( prefix + "neoscada.warning" + tags, toValue ( c.isWarning () ), t ) );
+                toSend.add ( new GraphiteData ( prefix + "neoscada.critical" + tags, toValue ( c.isCritical () ), t ) );
+                toSend.add ( new GraphiteData ( prefix + "neoscada.maxqueuesize" + tags, "" + c.getMaxQueueSize (), t ) );
+                for ( ScadaItem item : c.getItems () )
+                {
+                    toSend.add ( new GraphiteData ( prefix + "neoscada.item.problem." + toMetric ( item.getTag () ) + tags, toValue ( item.isProblem () ), t ) );
+                    toSend.add ( new GraphiteData ( prefix + "neoscada.item.value." + toMetric ( item.getTag () ) + tags, "" + item.getDaItemValue ().getValue ().asDouble ( 0.0 ), t ) );
+                }
+
+                toSend.add ( new GraphiteData ( prefix + "jmx.threads.deadlock" + tags, toValue ( c.getMemory ().isDeadlock () ), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.os.loadaverage" + tags, "" + c.getLoadAverage (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.free.percent" + tags, "" + c.getFreeMemoryPercent (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.heap.init" + tags, "" + c.getMemory ().getHeapMemoryUsage ().getInit (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.heap.max" + tags, "" + c.getMemory ().getHeapMemoryUsage ().getMax (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.heap.commited" + tags, "" + c.getMemory ().getHeapMemoryUsage ().getCommitted (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.heap.used" + tags, "" + c.getMemory ().getHeapMemoryUsage ().getUsed (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.nonheap.init" + tags, "" + c.getMemory ().getNonHeapMemoryUsage ().getInit (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.nonheap.max" + tags, "" + c.getMemory ().getNonHeapMemoryUsage ().getMax (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.nonheap.commited" + tags, "" + c.getMemory ().getNonHeapMemoryUsage ().getCommitted (), t ) );
+                toSend.add ( new GraphiteData ( prefix + "jmx.memory.nonheap.used" + tags, "" + c.getMemory ().getNonHeapMemoryUsage ().getUsed (), t ) );
+            }
+            for ( Iec104AliveCheck c : entry.getValue ().getIec104 () )
+            {
+                String tags = String.format ( ";env=%s;server=%s;service=%s", environment, entry.getKey (), c.getName () );
+                toSend.add ( new GraphiteData ( prefix + "iec104.disconnected" + tags, toValue ( c.isDisconnected () ), t ) );
+                toSend.add ( new GraphiteData ( prefix + "iec104.warning" + tags, toValue ( c.isWarning () ), t ) );
+                toSend.add ( new GraphiteData ( prefix + "iec104.critical" + tags, toValue ( c.isCritical () ), t ) );
+                for ( ScadaItem item : c.getItems () )
+                {
+                    toSend.add ( new GraphiteData ( prefix + "iec104.item.problem." + toMetric ( item.getTag () ) + tags, toValue ( item.isProblem () ), t ) );
+                    toSend.add ( new GraphiteData ( prefix + "iec104.item.value." + toMetric ( item.getTag () ) + tags, "" + item.getDaItemValue ().getValue ().asDouble ( 0.0 ), t ) );
+                }
+            }
+        }
+    }
+
+    private String toMetric ( String tag )
+    {
+        return tag.replace ( " ", "_" );
+    }
+
+    private String toValue ( boolean v )
+    {
+        return v ? "1" : "0";
     }
 }

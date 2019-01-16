@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.OperatingSystemMXBean;
+import java.lang.management.ThreadMXBean;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.management.MBeanServerConnection;
@@ -60,6 +62,8 @@ public class ScadaAliveCheck
     private AtomicReference<JvmMemoryUsage> memoryRef = new AtomicReference<JvmMemoryUsage> ( new JvmMemoryUsage () );
 
     private AtomicDouble loadAverageRef = new AtomicDouble ( 0.0 );
+    
+    private AtomicLong jmxPollNo = new AtomicLong(0l);
 
     private AtomicReference<ConnectionState> daConnectionStateRef = new AtomicReference<ConnectionState> ( ConnectionState.CLOSED );
 
@@ -171,6 +175,7 @@ public class ScadaAliveCheck
 
     protected void loginOrRetrieveJmxData ( String hostName )
     {
+    	long pollNo = jmxPollNo.incrementAndGet();
         if ( jmxcRef.get () == null )
         {
             try
@@ -202,6 +207,20 @@ public class ScadaAliveCheck
 
                 final OperatingSystemMXBean remoteOs = ManagementFactory.newPlatformMXBeanProxy ( connection, ManagementFactory.OPERATING_SYSTEM_MXBEAN_NAME, OperatingSystemMXBean.class );
                 this.loadAverageRef.set ( remoteOs.getSystemLoadAverage () );
+                
+                if ( ( pollNo % 30 ) == 0) {
+                	// check that only every 5 min
+                    ThreadMXBean threads = ManagementFactory.newPlatformMXBeanProxy ( connection, ManagementFactory.THREAD_MXBEAN_NAME, ThreadMXBean.class );
+                    long[] threadIds = threads.findDeadlockedThreads ();
+                    if ((threadIds != null) && threadIds.length > 0) 
+                    {
+                        jvmMemory.setDeadlock(true);
+                    } 
+                    else 
+                    {
+                        jvmMemory.setDeadlock(false);
+                    }
+                }
 
                 SortedSet<QueueSize> qs = new TreeSet<> ();
                 logger.trace ( "start querying attributes" );
@@ -319,12 +338,17 @@ public class ScadaAliveCheck
 
     public boolean isWarning ()
     {
-        return isMemoryWarningThreshold () || isQueueSizesWarningThreshold () || isLoadAverageWarningThreshold () || isDisconnected () || isValueWarning ();
+        return isMemoryWarningThreshold () || isQueueSizesWarningThreshold () || isLoadAverageWarningThreshold () || isDisconnected () || isValueWarning () || isDeadlock();
     }
 
     public boolean isCritical ()
     {
-        return isMemoryCriticalThreshold () || isQueueSizesCriticalThreshold () || isLoadAverageCriticalThreshold () || isDisconnected () || isValueCritical ();
+        return isMemoryCriticalThreshold () || isQueueSizesCriticalThreshold () || isLoadAverageCriticalThreshold () || isDisconnected () || isValueCritical () || isDeadlock();
+    }
+    
+    public boolean isDeadlock ()
+    {
+        return memoryRef.get ().isDeadlock ();
     }
 
     private boolean isValueWarning ()

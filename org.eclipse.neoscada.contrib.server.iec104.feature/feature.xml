@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<feature id="org.eclipse.neoscada.contrib.server.iec104.feature" label="Feature" version="0.12.3" provider-name="IBH">
+<feature id="org.eclipse.neoscada.contrib.server.iec104.feature" label="Feature" version="0.12.4" provider-name="IBH">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]

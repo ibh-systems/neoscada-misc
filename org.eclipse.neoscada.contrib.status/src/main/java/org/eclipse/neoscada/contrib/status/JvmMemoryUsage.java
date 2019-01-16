@@ -16,7 +16,9 @@ public class JvmMemoryUsage
 {
     private MemoryUsage heapMemoryUsage = new MemoryUsage ( 0, 0, 0, 0 );
 
-    private MemoryUsage nonHeapMemoryUsage = new MemoryUsage ( 0, 0, 0, 0 );;
+    private MemoryUsage nonHeapMemoryUsage = new MemoryUsage ( 0, 0, 0, 0 );
+    
+    private boolean deadlock = false;
 
     public MemoryUsage getHeapMemoryUsage ()
     {
@@ -37,4 +39,12 @@ public class JvmMemoryUsage
     {
         this.nonHeapMemoryUsage = nonHeapMemoryUsage;
     }
+    
+    public void setDeadlock(boolean deadlock) {
+		this.deadlock = deadlock;
+	}
+    
+    public boolean isDeadlock() {
+		return deadlock;
+	}
 }

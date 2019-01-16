@@ -12,6 +12,7 @@ package org.eclipse.neoscada.contrib.status;
 
 import java.io.File;
 import java.io.FileReader;
+import java.net.URI;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -32,6 +33,9 @@ public class Application
         // default configuration
         String configFile = null;
         int port = PORT;
+        String graphiteHost = null;
+        int graphitePort = 2003;
+        String graphitePrefix = "neoscada.contrib.status";
 
         // config file would be the first command line parameter
         if ( args.length > 0 )
@@ -41,6 +45,20 @@ public class Application
         if ( args.length > 1 )
         {
             port = Integer.parseInt ( args[1] );
+        }
+        if ( args.length > 2 )
+        {
+            graphiteHost = args[2];
+            URI uri = URI.create ( "graphite://" + graphiteHost );
+            graphiteHost = uri.getHost ();
+            if ( uri.getPort () > 0 )
+            {
+                graphitePort = uri.getPort ();
+            }
+            if ( uri.getPath () != null )
+            {
+                graphitePrefix = uri.getPath ().replaceFirst ( "/", "" );
+            }
         }
         Map<String, ServerGroup> cfg = new LinkedHashMap<> ( 1 );
         if ( configFile != null )
@@ -62,6 +80,6 @@ public class Application
         }
         logger.info ( "Providing HTTP interface on " + port );
 
-        new StatusEndpoint ( cfg, port ).run ();
+        new StatusEndpoint ( cfg, port, graphiteHost, graphitePort, graphitePrefix ).run ();
     }
 }
