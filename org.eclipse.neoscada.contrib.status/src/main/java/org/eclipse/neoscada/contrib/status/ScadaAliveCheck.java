@@ -24,6 +24,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.atomic.AtomicReference;
 
 import javax.management.MBeanServerConnection;
@@ -64,13 +65,13 @@ public class ScadaAliveCheck
 
     private AtomicDouble loadAverageRef = new AtomicDouble ( 0.0 );
 
+    private AtomicLong jmxPollNo = new AtomicLong ( 0l );
+
     private AtomicReference<ConnectionState> daConnectionStateRef = new AtomicReference<ConnectionState> ( ConnectionState.CLOSED );
 
     private List<ScadaItem> items = new ArrayList<> ();
 
     private SortedSet<QueueSize> queueSizes = new TreeSet<> ();
-
-    private long numOfCalls = 0l;
 
     public String getName ()
     {
@@ -176,7 +177,7 @@ public class ScadaAliveCheck
 
     protected void loginOrRetrieveJmxData ( String hostName )
     {
-        numOfCalls += 1;
+        long pollNo = jmxPollNo.incrementAndGet ();
         if ( jmxcRef.get () == null )
         {
             try
@@ -212,8 +213,9 @@ public class ScadaAliveCheck
                 final ThreadMXBean threads = ManagementFactory.newPlatformMXBeanProxy ( connection, ManagementFactory.THREAD_MXBEAN_NAME, ThreadMXBean.class );
                 ThreadInformation ti = new ThreadInformation ( threadRef.get () );
                 ti.setNumOfThreads ( threads.getThreadCount () );
-                if ( numOfCalls % 10 == 0 )
+                if ( ( pollNo % 30 ) == 0 )
                 {
+                    // check that only every 5 min
                     long[] dl = threads.findDeadlockedThreads ();
                     ti.setDeadlock ( dl != null && dl.length > 0 );
                 }
@@ -340,12 +342,17 @@ public class ScadaAliveCheck
 
     public boolean isWarning ()
     {
-        return isMemoryWarningThreshold () || isQueueSizesWarningThreshold () || isLoadAverageWarningThreshold () || isDisconnected () || isValueWarning ();
+        return isMemoryWarningThreshold () || isQueueSizesWarningThreshold () || isLoadAverageWarningThreshold () || isDisconnected () || isValueWarning () || isDeadlock ();
     }
 
     public boolean isCritical ()
     {
-        return isMemoryCriticalThreshold () || isQueueSizesCriticalThreshold () || isLoadAverageCriticalThreshold () || isDisconnected () || isValueCritical () || isDeadlock();
+        return isMemoryCriticalThreshold () || isQueueSizesCriticalThreshold () || isLoadAverageCriticalThreshold () || isDisconnected () || isValueCritical () || isDeadlock ();
+    }
+
+    public boolean isDeadlock ()
+    {
+        return threadRef.get ().isDeadlock ();
     }
 
     private boolean isValueWarning ()
@@ -380,11 +387,6 @@ public class ScadaAliveCheck
             return false;
         }
         return daConnectionStateRef.get () != ConnectionState.BOUND;
-    }
-
-    public boolean isDeadlock ()
-    {
-        return threadRef.get ().isDeadlock ();
     }
 
     public String toStatus ()
