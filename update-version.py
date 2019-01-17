@@ -2,7 +2,8 @@
 import os
 import os.path
 from lxml import etree
-from __builtin__ import raw_input
+try: input = raw_input
+except NameError: pass
 
 ns = "http://maven.apache.org/POM/4.0.0"
 
@@ -19,7 +20,7 @@ def update_pom(v, pom):
     if version is not None:
         version.text = v
     with open(pom, 'wb') as fp:
-        fp.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        fp.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
         dom.write(fp)
 
 def update_feature(v, feature):
@@ -28,7 +29,7 @@ def update_feature(v, feature):
     root = dom.getroot()
     root.attrib['version'] = v
     with open(feature, 'wb') as fp:
-        fp.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        fp.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
         dom.write(fp)
 
 def update_product(v, product):
@@ -41,7 +42,7 @@ def update_product(v, product):
         for f in features:
             f.attrib['version'] = v
     with open(product, 'wb') as fp:
-        fp.write('<?xml version="1.0" encoding="UTF-8"?>\n')
+        fp.write(b'<?xml version="1.0" encoding="UTF-8"?>\n')
         dom.write(fp)
 
 def update_version(version):
@@ -54,6 +55,6 @@ def update_version(version):
             if (os.path.exists('./' + bundle + '/' + bundle) and bundle.endswith('.product')):
                 update_product(version, './' + bundle + '/' + bundle)
     
-version = raw_input('version: ')
+version = input('version: ')
 update_version(version.strip())
 #update_version("0.22.0")
