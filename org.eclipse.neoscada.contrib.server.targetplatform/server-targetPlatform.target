@@ -65,7 +65,7 @@
       <unit id="org.openscada.external.sdk.feature.group" version="1.5.0.201711211333"/>
       <unit id="org.openscada.utgard.sdk.feature.group" version="1.5.0.201711211333"/>
       <unit id="org.openscada.jinterop.sdk.feature.group" version="1.5.0.201711211333"/>
-      <repository location="http://thedrone.packagedrone.org/p2/openscada-1.5-integration/"/>
+      <repository location="http://pd.openscada.org/p2/openscada-1.5-integration/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.paho.client.mqttv3" version="1.0.2"/>
@@ -73,7 +73,7 @@
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="bcprov" version="1.50.0"/>
-      <repository location="http://thedrone.packagedrone.org/p2/os-externals/"/>
+      <repository location="http://pd.openscada.org/p2/os-externals/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="com.eclipsesource.jaxrs.publisher" version="4.1.0.201407131319"/>

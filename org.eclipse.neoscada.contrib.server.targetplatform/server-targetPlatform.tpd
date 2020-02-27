@@ -61,7 +61,7 @@ location "http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/updates/r
 	org.eclipse.scada.deploy.console.feature.group 
 }
 
-location "http://thedrone.packagedrone.org/p2/openscada-1.5-integration/" {
+location "http://pd.openscada.org/p2/openscada-1.5-integration/" {
 	org.openscada.atlantis.sdk.feature.group [1.5.0,1.6.0)
 	org.openscada.external.sdk.feature.group [1.5.0,1.6.0)
 	org.openscada.utgard.sdk.feature.group [1.5.0,1.6.0)
@@ -72,7 +72,7 @@ location "http://download.eclipse.org/paho/" {
 	org.eclipse.paho.client.mqttv3 [1.0.0,1.1.0]
 }
 
-location "http://thedrone.packagedrone.org/p2/os-externals/" {
+location "http://pd.openscada.org/p2/os-externals/" {
 	bcprov
 }
 

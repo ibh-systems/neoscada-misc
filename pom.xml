@@ -5,7 +5,7 @@
 
 	<groupId>org.eclipse.neoscada.contrib</groupId>
 	<artifactId>org.eclipse.neoscada.contrib</artifactId>
-	<version>0.26.0</version>
+	<version>0.27.0</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -15,10 +15,10 @@
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
 		<module>com.ibh.systems.neoscada.generator.lib</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
+		 -->
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.server.base</module>
 		<module>org.eclipse.neoscada.contrib.bnd-parent</module>
-		 -->
 	</modules>
 
 	<properties>
@@ -59,7 +59,7 @@
 			</snapshots>
 			<id>openSCADA</id>
 			<name>openSCADA</name>
-			<url>https://thedrone.packagedrone.org/maven/openscada-1.5/</url>
+			<url>https://pd.openscada.org/maven/openscada-1.5/</url>
 			<layout>default</layout>
 		</repository>
 	</repositories>
@@ -332,11 +332,11 @@
 			</properties>
 
 			<distributionManagement>
-				<downloadUrl>http://thedrone.packagedrone.org/maven/neoscada-contrib</downloadUrl>
+				<downloadUrl>http://pd.openscada.org/maven/neoscada-contrib</downloadUrl>
 				<repository>
 					<id>neoscada-contrib</id>
 					<name>NeoSCADA Contrib Maven Repository</name>
-					<url>http://thedrone.packagedrone.org/maven/neoscada-contrib</url>
+					<url>http://pd.openscada.org/maven/neoscada-contrib</url>
 				</repository>
 			</distributionManagement>
 		</profile>
@@ -353,11 +353,11 @@
 			</properties>
 
 			<distributionManagement>
-				<downloadUrl>http://thedrone.packagedrone.org/maven/neoscada-contrib-dev</downloadUrl>
+				<downloadUrl>http://pd.openscada.org/maven/neoscada-contrib-dev</downloadUrl>
 				<repository>
 					<id>neoscada-contrib</id>
 					<name>NeoSCADA Contrib Maven Repository</name>
-					<url>http://thedrone.packagedrone.org/maven/neoscada-contrib-dev</url>
+					<url>http://pd.openscada.org/maven/neoscada-contrib-dev</url>
 				</repository>
 			</distributionManagement>
 		</profile>
