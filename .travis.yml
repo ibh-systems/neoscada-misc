@@ -6,8 +6,8 @@ install:
   - echo ==== Setting up toolchain.xml ====
   - ls /usr/lib/jvm
   - ls
-  - echo ==== Setting up Maven 3.3 for Travis ====
-  - wget -O maven.tar.gz http://www-eu.apache.org/dist/maven/maven-3/3.5.4/binaries/apache-maven-3.5.4-bin.tar.gz
+  - echo ==== Setting up Maven 3.6 for Travis ====
+  - wget -O maven.tar.gz http://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz
   - mkdir maven
   - cd maven ; tar --strip-components 1 -xzf ../maven.tar.gz ; cd ..
   - chmod a+x maven/bin/mvn
@@ -17,8 +17,8 @@ install:
 
 script:
 #  - travis_wait 30 mvn -s settings.xml -B -P development clean
-  - travis_wait 30 mvn -Dmaven.test.skip=true -s settings.xml -B -P integration install
-#  - travis_wait 30 mvn -Dmaven.test.skip=true -s settings.xml -B -P integration deploy
+#  - travis_wait 30 mvn -Dmaven.test.skip=true -s settings.xml -B -P integration install
+  - travis_wait 30 mvn -Dmaven.test.skip=true -s settings.xml -B -P integration install deploy
 
 # The following upgrades Java during the build in
 # order to work around an older Java 8 compiler issue

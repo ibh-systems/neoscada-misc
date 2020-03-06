@@ -329,11 +329,11 @@
 			</properties>
 
 			<distributionManagement>
-				<downloadUrl>http://pd.openscada.org/maven/neoscada-contrib</downloadUrl>
+				<downloadUrl>http://pd.openscada.org/maven/neoscada-contrib-integration</downloadUrl>
 				<repository>
 					<id>neoscada-contrib</id>
 					<name>NeoSCADA Contrib Maven Repository</name>
-					<url>http://pd.openscada.org/maven/neoscada-contrib</url>
+					<url>http://pd.openscada.org/maven/neoscada-contrib-integration</url>
 				</repository>
 			</distributionManagement>
 		</profile>
