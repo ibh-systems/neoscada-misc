@@ -10,12 +10,10 @@
 
 	<modules>
 		<module>org.eclipse.neoscada.contrib.status</module>
-		<!-- 
 		<module>com.ibh.systems.neoscada.iec104slave</module>
 		<module>com.ibh.systems.neoscada.ngp2modbus</module>
 		<module>com.ibh.systems.neoscada.generator.lib</module>
 		<module>org.eclipse.neoscada.contrib.iec104torest</module>
-		 -->
 		<module>org.eclipse.neoscada.contrib.plantsimulator</module>
 		<module>org.eclipse.neoscada.contrib.server.base</module>
 		<module>org.eclipse.neoscada.contrib.bnd-parent</module>
@@ -23,7 +21,7 @@
 
 	<properties>
 		<local.index.policy>REQUIRED</local.index.policy>
-		<bnd.maven.version>4.1.0</bnd.maven.version>
+		<bnd.maven.version>5.0.0</bnd.maven.version>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
