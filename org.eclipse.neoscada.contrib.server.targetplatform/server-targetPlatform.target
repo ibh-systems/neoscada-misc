@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="Target Platform for preconfigured NeoSCADA instances" sequenceNumber="1512410515">
+<target name="Target Platform for preconfigured NeoSCADA instances" sequenceNumber="1585830633">
   <locations>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.equinox.sdk.feature.group" version="3.11.2.v20160202-2102"/>
@@ -61,14 +61,14 @@
       <repository location="http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/updates/release/0.3/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.openscada.atlantis.sdk.feature.group" version="1.5.0.201711211333"/>
-      <unit id="org.openscada.external.sdk.feature.group" version="1.5.0.201711211333"/>
-      <unit id="org.openscada.utgard.sdk.feature.group" version="1.5.0.201711211333"/>
-      <unit id="org.openscada.jinterop.sdk.feature.group" version="1.5.0.201711211333"/>
-      <repository location="http://pd.openscada.org/p2/openscada-1.5-integration/"/>
+      <unit id="org.openscada.atlantis.sdk.feature.group" version="1.5.0"/>
+      <unit id="org.openscada.external.sdk.feature.group" version="1.5.0"/>
+      <unit id="org.openscada.utgard.sdk.feature.group" version="1.5.0"/>
+      <unit id="org.openscada.jinterop.sdk.feature.group" version="1.5.0"/>
+      <repository location="http://pd.openscada.org/p2/openscada-1.5/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.paho.client.mqttv3" version="1.0.2"/>
+      <unit id="org.eclipse.paho.client.mqttv3" version="1.1.0"/>
       <repository location="http://download.eclipse.org/paho/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">

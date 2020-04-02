@@ -324,7 +324,7 @@
 			</activation>
 
 			<properties>
-				<openscada.releaseType>integration</openscada.releaseType>
+				<openscada.releaseType>release</openscada.releaseType>
 				<repo.upload>true</repo.upload>
 			</properties>
 
@@ -345,7 +345,7 @@
 			</activation>
 
 			<properties>
-				<openscada.releaseType>integration</openscada.releaseType>
+				<openscada.releaseType>release</openscada.releaseType>
 				<repo.upload>true</repo.upload>
 			</properties>
 
@@ -366,7 +366,7 @@
 			</activation>
 
 			<properties>
-				<openscada.releaseType>integration</openscada.releaseType>
+				<openscada.releaseType>release</openscada.releaseType>
 				<repo.upload>true</repo.upload>
 			</properties>
 

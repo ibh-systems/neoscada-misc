@@ -24,7 +24,7 @@
 	</modules>
 
 	<properties>
-		<tycho.version>1.0.0</tycho.version>
+		<tycho.version>1.1.0</tycho.version>
 	</properties>
 
 	<build>
@@ -59,6 +59,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+					<pomDependencies>ignore</pomDependencies>
 					<target>
 						<artifact>
 							<groupId>org.eclipse.neoscada.contrib</groupId>
