@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>org.eclipse.neoscada.contrib.bnd-parent</artifactId>
 		<groupId>org.eclipse.neoscada.contrib</groupId>
-		<version>0.27.0</version>
+		<version>0.27.1</version>
 		<relativePath>../org.eclipse.neoscada.contrib.bnd-parent</relativePath>
 	</parent>
 	<artifactId>org.eclipse.neoscada.contrib.runtime</artifactId>

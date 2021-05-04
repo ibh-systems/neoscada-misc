@@ -61,7 +61,7 @@
 	org.ops4j.pax.jdbc.pool.hikaricp;version='[1.2.1,1.2.2)',\
 	org.eclipse.scada.utils.osgi;version='[0.1.0,0.1.1)',\
 	org.eclipse.scada.utils.osgi.jdbc;version='[0.2.0,0.2.1)',\
-	org.eclipse.neoscada.contrib.tsdb.api;version='[0.27.0,0.27.1)',\
-	org.eclipse.neoscada.contrib.tsdb.consumer.jdbc;version='[0.27.0,0.27.1)',\
-	org.eclipse.neoscada.contrib.tsdb.producer;version='[0.27.0,0.27.1)',\
+	org.eclipse.neoscada.contrib.tsdb.api;version='[0.27.1,0.27.2)',\
+	org.eclipse.neoscada.contrib.tsdb.consumer.jdbc;version='[0.27.1,0.27.2)',\
+	org.eclipse.neoscada.contrib.tsdb.producer;version='[0.27.1,0.27.2)',\
 	osgi.enterprise;version='[4.2.0,4.2.1)'

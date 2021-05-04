@@ -46,7 +46,7 @@ location "http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/tools/orbit/downloads/
 	javax.ws.rs [1.1.1,1.2.0)	
 }
 
-location "http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/updates/release/0.3/" {
+location "https://downloads.openscada.org/updates/release/0.3/" {
 	org.eclipse.scada.external.wrapper.feature.group [0.3.0,0.4.0)
 	org.eclipse.scada.external.sdk.feature.group [0.3.0,0.4.0)
 	org.eclipse.scada.external.orbit.feature.group [0.3.0,0.4.0)

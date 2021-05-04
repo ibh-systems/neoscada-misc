@@ -58,7 +58,7 @@
       <unit id="org.eclipse.scada.core.sdk.feature.group" version="0.3.0.v20160216-1258"/>
       <unit id="org.eclipse.scada.ds.sdk.feature.group" version="0.3.0.v20160121-1423"/>
       <unit id="org.eclipse.scada.deploy.console.feature.group" version="0.3.0.v20160126-1423"/>
-      <repository location="http://ftp-stud.hs-esslingen.de/Mirrors/eclipse/eclipsescada/updates/release/0.3/"/>
+      <repository location="https://downloads.openscada.org/updates/release/0.3/"/>
     </location>
     <location includeMode="slicer" includeAllPlatforms="true" includeSource="false" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.openscada.atlantis.sdk.feature.group" version="1.5.0"/>
